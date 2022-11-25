@@ -1,0 +1,23 @@
+a {
+  color: rgb(105, 74, 201) !important;
+  font-size: 14px !important;
+  font-weight: bold !important;
+}
+
+/* .ant-form-item {
+  vertical-align: top;
+} */
+.ant-select-selector {
+  height: auto !important;
+  position: relative;
+  border-radius: 200px !important;
+  padding: 9px !important;
+  padding-left: 20px !important;
+  padding-right: 20px !important;
+  margin-right: 20;
+  width: 102% !important;
+  background-color: #ffffff;
+  border: 1px solid rgba(235, 235, 235, 1) !important;
+  color: rgba(122, 134, 161, 1) !important;
+  transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
