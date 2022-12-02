@@ -1,28 +1,30 @@
-import { Layout, Select } from "antd";
-import TextArea from "antd/es/input/TextArea";
 import gradientImage from "../../../assets/images/gradient-image.png";
 import logo from "../../../assets/images/logo.png";
-import register from "../../../assets/images/register.png";
-import { Image } from "antd";
-import useWindowDimensions from "../../../hooks/useWindowDimensions";
-import { Space, Typography, Button } from "antd";
-import { Divider, Row, Col, Card, Checkbox, Form, Input, Dropdown } from "antd";
-import { Anchor } from "antd";
-import { DownOutlined } from "@ant-design/icons";
-import { useState } from "react";
+import personImage from "../../../assets/images/register.png";
+import Image from "react-bootstrap/Image";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
 
-const { Text } = Typography;
-const { Link } = Anchor;
+import useWindowDimensions from "../../../hooks/useWindowDimensions";
+import "../styles/register.css";
+import { useNavigate } from "react-router-dom";
+import Alert from "react-bootstrap/Alert";
+
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import InputGroup from "react-bootstrap/InputGroup";
+import { useState } from "react";
+import * as yup from "yup";
+import { Formik } from "formik";
 
 export default function Root() {
+  const navigate = useNavigate();
+  const [swt, setSwt] = useState(true);
+  const [validated, setValidated] = useState(false);
+
   const { height, width } = useWindowDimensions();
 
-  const onFinish = (values) => {
-    console.log("Success:", values);
-  };
-  const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
-  };
   const items = [
     {
       key: "1",
@@ -38,229 +40,299 @@ export default function Root() {
     },
   ];
 
-  const handleChange = (value) => {
-    console.log(`selected ${value}`);
+  // const renderDropDown = () => {
+  //   return (
+  //     <div style={{ flexDirection: "row", marginTop: 20 }}>
+  //       <Text> You are the </Text>
+  //       <Select
+  //         defaultValue="Fan"
+  //         style={{
+  //           width: 300,
+  //           marginLeft: 20,
+  //         }}
+  //         onChange={handleChange}
+  //         options={items}
+  //       />
+  //     </div>
+  //   );
+  // };
+  const schema = yup.object().shape({
+    email: yup
+      .string()
+      .email("Email must be valid")
+      .required("Email is required"),
+
+    password: yup
+      .string()
+      .required("Password is required")
+      .min(6, "Password is too short - should be 6 chars minimum"),
+    checkmark: yup.string(),
+    name: yup.string().required("Name is required"),
+    username: yup.string().required("Username is required"),
+  });
+
+  const handleSubmit = (event) => {
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    setValidated(true);
   };
 
-  const renderDropDown = () => {
-    return (
-      <div style={{ flexDirection: "row", marginTop: 20 }}>
-        <Text> You are the </Text>
-        <Select
-          defaultValue="Fan"
-          style={{
-            width: 300,
-            marginLeft: 20,
-          }}
-          onChange={handleChange}
-          options={items}
-        />
-      </div>
-    );
+  const onFinish = (values) => {
+    console.log("Success:", values);
+  };
+  const onFinishFailed = (errorInfo) => {
+    console.log("Failed:", errorInfo);
   };
 
   const renderRightView = () => {
     return (
-      <Layout
-        style={{
-          backgroundColor: "#FFFFFF",
-
-          height: "100vh",
-          width: "50%",
-          justifyContent: "center",
-          // paddingLeft: 100,
-        }}
+      <div
+        id="right-main-view"
+        style={
+          {
+            // minHeight: "100vh",
+            // justifyContent: "center",
+            // alignContent: "center",
+            // alignSelf: "center",
+            // alignItems: "center",
+            // display: "grid",
+          }
+        }
       >
-        <div
+        <Form.Label
+          id="sign-text"
           style={{
-            justifyContent: "center",
-            alignContent: "center",
-            alignSelf: "center",
-            alignItems: "center",
+            fontSize: 35,
+            textAlign: "start",
+            fontWeight: "700",
+            alignSelf: "flex-start",
           }}
         >
-          <Text
-            style={{
-              fontSize: 40,
-              textAlign: "start",
-              fontWeight: "600",
-              alignSelf: "flex-start",
-            }}
-          >
-            Create Your Account
-          </Text>
-          <div
-            style={{
-              flexDirection: "row",
-              marginTop: 20,
-              justifyContent: "space-evenly",
-              paddingBottom: 20,
-            }}
-          >
-            <Space>
-              <Button
-                style={{
-                  width: 300,
-                  marginRight: 30,
-                  height: 50,
-                  boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.8)",
-                  backgroundImage: `linear-gradient(to right, #F9AB38, #F9914B,#F96E63)`,
-                }}
-                type="primary"
-                block
-                shape="round"
-                size="large"
-              >
-                <Text
-                  style={{
-                    textAlign: "center",
-                    verticalAlign: "middle",
-                    color: "white",
-                    fontWeight: "700",
-                  }}
-                >
-                  Sign Up with Facebook
-                </Text>
-              </Button>
-            </Space>
+          Create your account
+        </Form.Label>
+        <Row
+          id="social-button-row-desktop"
+          style={{
+            flexDirection: "row",
+            display: "flex",
+            marginTop: 20,
+            justifyContent: "space-evenly",
+            paddingBottom: 20,
+          }}
+        >
+          <Col id="social-button-col-fb" style={{ marginBottom: 10 }}>
             <Button
+              id="social-button-button-fb"
+              variant="primary"
+              size="lg"
               style={{
                 width: 300,
+                marginRight: 30,
+                borderRadius: 100,
+                height: 50,
+                boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.8)",
+                backgroundImage: `linear-gradient(to right, #F9AB38, #F9914B,#F96E63)`,
+              }}
+            >
+              <Form.Label
+                id="social-text"
+                style={{
+                  fontSize: 16,
+                  color: "white",
+                  fontWeight: "700",
+                }}
+              >
+                with Facebook
+              </Form.Label>
+            </Button>
+          </Col>
+
+          <Col id="social-button-col-google">
+            <Button
+              id="social-button-button-google"
+              variant="primary"
+              size="lg"
+              style={{
+                // width: width / 6,
+                width: 300,
+                borderRadius: 100,
+
                 marginRight: 30,
                 height: 50,
                 boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.8)",
                 backgroundImage: `linear-gradient(to right, #F9AB38, #F9914B,#F96E63)`,
               }}
-              block
-              shape="round"
-              size="large"
             >
-              <Text
+              <Form.Label
+                id="social-text"
                 style={{
-                  textAlign: "center",
-                  verticalAlign: "middle",
+                  fontSize: 16,
                   color: "white",
                   fontWeight: "700",
                 }}
               >
                 with Google
-              </Text>
+              </Form.Label>
             </Button>
-          </div>
-          <div
+          </Col>
+        </Row>
+        <div
+          id="border-line"
+          style={{
+            width: width / 30,
+            height: 1,
+            backgroundColor: "lightgrey",
+            alignSelf: "flex-start",
+            marginTop: 30,
+          }}
+        />
+        <div style={{ display: "flex", alignSelf: "flex-start" }}>
+          <Form.Label
             style={{
-              width: "10%",
-              height: 1,
-              backgroundColor: "lightgrey",
-              alignSelf: "flex-start",
               marginTop: 30,
+              color: "rgba(122,134,161,1)",
+              fontSize: 14,
+
+              fontWeight: "700",
             }}
-          />
-          <div style={{ display: "flex", alignSelf: "flex-start" }}>
-            <Text
-              style={{
-                marginTop: 30,
-                color: "grey",
-                color: "rgba(122,134,161,1)",
-                fontSize: "14px",
-                fontWeight: "700",
-              }}
-            >
-              Or sign up using your email address
-            </Text>
-          </div>
-          {renderDropDown()}
-          <Form
-            name="basic"
-            labelCol={{
-              span: 8,
-            }}
-            wrapperCol={{
-              span: 16,
-            }}
-            initialValues={{
-              remember: true,
-            }}
-            onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
-            autoComplete="off"
           >
-            <Row style={{ marginTop: 20 }}>
-              <Col
-                style={{
-                  flex: 0.5,
-                }}
-              >
-                <Text
+            Or sign up using your email address
+          </Form.Label>
+        </div>
+        <Formik
+          style={{ flex: 1 }}
+          validationSchema={schema}
+          onSubmit={console.log}
+          initialValues={{
+            email: "",
+            password: "",
+            checkmark: "",
+            name: "",
+            username: "",
+          }}
+        >
+          {({
+            handleSubmit,
+            handleChange,
+            handleBlur,
+            values,
+            touched,
+            isValid,
+            errors,
+          }) => (
+            <Form noValidate onSubmit={handleSubmit}>
+              <Row style={{ marginTop: 20, marginBottom: 20 }}>
+                <Col
+                  id="input-col-email"
                   style={{
-                    fontWeight: "bolder",
-                    fontSize: 15,
+                    flex: 0.5,
+                  }}
+                >
+                  <Form.Group
+                    name="basic"
+                    controlId="formBasicName"
+                    onFinish={onFinish}
+                    onFinishFailed={onFinishFailed}
+                    autoComplete="off"
+                  >
+                    <Form.Label
+                      style={{
+                        fontWeight: "bolder",
+                        fontSize: 15,
+                        // marginTop: 5),
+                      }}
+                    >
+                      Name
+                    </Form.Label>
+                    <Form.Control
+                      type="name"
+                      name="name"
+                      id="input-email"
+                      value={values.name}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      // className={
+                      //   errors.email && touched.email ? "input-error" : null
+                      // }
+                      style={{
+                        width: width / 6,
 
-                    // marginTop: 5),
-                  }}
-                >
-                  Name
-                </Text>
-                <Form.Item
-                  name="Name"
-                  style={{}}
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your Name!",
-                    },
-                  ]}
-                >
-                  <Input
-                    size="large"
-                    style={{
-                      width: 299,
-                      flex: 1,
-                      marginTop: 20,
-                      height: "50px",
-                      display: "flex",
-                      borderRadius: 200,
-                      // backgroundColor: "rgba( 245, 244, 245, 100%)",
-                      border: "1px solid rgba(235,235,235,1)",
-                    }}
-                  />
-                </Form.Item>
-              </Col>
-              <Col style={{ marginLeft: 30 }}>
-                <Text
-                  style={{
-                    fontWeight: "bold",
-                    fontSize: 15,
-                    // marginTop: 5),
-                  }}
-                >
-                  Username
-                </Text>
-                <Form.Item
-                  name="User Name"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your user name!",
-                    },
-                  ]}
-                >
-                  <Input
-                    size="large"
-                    style={{
-                      marginTop: 20,
-                      width: 299,
-                      flex: 1,
-                      display: "flex",
-                      borderRadius: 200,
-                      height: "50px",
-                      // backgroundColor: "rgba( 245, 244, 245, 100%)",
-                      border: "1px solid rgba(235,235,235,1)",
-                    }}
-                  />
-                </Form.Item>
-              </Col>
-              {/* <div
+                        flex: 1,
+                        marginTop: 20,
+                        height: "50px",
+                        display: "flex",
+                        borderRadius: 200,
+                        // backgroundColor: "rgba( 245, 244, 245, 100%)",
+                        border: "1px solid rgba(235,235,235,1)",
+                      }}
+                    />
+                    {errors.name && touched.name && (
+                      <Form.Label
+                        style={{
+                          position: "absolute",
+                          color: "red",
+                          fontSize: 8,
+                          paddingTop: 5,
+                          paddingLeft: 5,
+                        }}
+                        className="error"
+                      >
+                        {errors.name}
+                      </Form.Label>
+                    )}
+                  </Form.Group>
+                </Col>
+                <Col id="input-col-password" style={{ marginLeft: 30 }}>
+                  <Form.Group controlId="formBasicUsername">
+                    <Form.Label
+                      style={{
+                        fontWeight: "bolder",
+                        fontSize: 15,
+                        // marginTop: 5),
+                      }}
+                    >
+                      Username
+                    </Form.Label>
+                    <Form.Control
+                      name="username"
+                      type="username"
+                      id="input-password"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.username}
+                      size="large"
+                      style={{
+                        width: width / 6,
+
+                        flex: 1,
+                        marginTop: 20,
+                        height: "50px",
+                        display: "flex",
+                        borderRadius: 200,
+                        // backgroundColor: "rgba( 245, 244, 245, 100%)",
+                        border: "1px solid rgba(235,235,235,1)",
+                      }}
+                    />
+                    <Form.Label
+                      style={{
+                        position: "absolute",
+                        color: "red",
+                        fontSize: 8,
+                        paddingTop: 5,
+                        paddingLeft: 5,
+                      }}
+                      className="error"
+                    >
+                      {errors.username && touched.username && errors.username}
+                    </Form.Label>
+                  </Form.Group>
+                </Col>
+
+                {/* <div
                   style={{
                     flexDirection: "row",
                     flex: 1,
@@ -268,86 +340,116 @@ export default function Root() {
                     backgroundColor: "#000",
                   }}
                 > */}
-            </Row>
-            <Row style={{}}>
-              <Col
-                style={{
-                  flex: 0.5,
-                }}
-              >
-                <Text
-                  style={{
-                    fontWeight: "bolder",
-                    fontSize: 15,
+              </Row>
 
-                    // marginTop: 5),
-                  }}
-                >
-                  Your Email
-                </Text>
-                <Form.Item
-                  name="Email"
+              <Row style={{ marginTop: 0, marginBottom: 30 }}>
+                <Col
+                  id="input-col-email"
                   style={{
-                    marginBottom: 0,
-                  }}
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your Email!",
-                    },
-                  ]}
-                >
-                  <Input
-                    size="large"
-                    style={{
-                      width: 299,
-                      flex: 1,
-                      marginTop: 20,
-                      height: "50px",
-                      display: "flex",
-                      borderRadius: 200,
-                      // backgroundColor: "rgba( 245, 244, 245, 100%)",
-                      border: "1px solid rgba(235,235,235,1)",
-                    }}
-                  />
-                </Form.Item>
-              </Col>
-              <Col style={{ marginLeft: 30 }}>
-                <Text
-                  style={{
-                    fontWeight: "bold",
-                    fontSize: 15,
-                    // marginTop: 5),
+                    flex: 0.5,
                   }}
                 >
-                  Your Password
-                </Text>
-                <Form.Item
-                  name="password"
-                  style={{ marginBottom: 0 }}
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your password!",
-                    },
-                  ]}
-                >
-                  <Input.Password
-                    size="large"
-                    style={{
-                      marginTop: 20,
-                      width: 299,
-                      flex: 1,
-                      display: "flex",
-                      borderRadius: 200,
-                      height: "50px",
-                      // backgroundColor: "rgba( 245, 244, 245, 100%)",
-                      border: "1px solid rgba(235,235,235,1)",
-                    }}
-                  />
-                </Form.Item>
-              </Col>
-              {/* <div
+                  <Form.Group
+                    name="basic"
+                    controlId="formBasicEmail"
+                    onFinish={onFinish}
+                    onFinishFailed={onFinishFailed}
+                    autoComplete="off"
+                  >
+                    <Form.Label
+                      style={{
+                        fontWeight: "bolder",
+                        fontSize: 15,
+                        // marginTop: 5),
+                      }}
+                    >
+                      Your Email
+                    </Form.Label>
+                    <Form.Control
+                      type="email"
+                      name="email"
+                      id="input-email"
+                      value={values.email}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      // className={
+                      //   errors.email && touched.email ? "input-error" : null
+                      // }
+                      style={{
+                        width: width / 6,
+
+                        flex: 1,
+                        marginTop: 20,
+                        height: "50px",
+                        display: "flex",
+                        borderRadius: 200,
+                        // backgroundColor: "rgba( 245, 244, 245, 100%)",
+                        border: "1px solid rgba(235,235,235,1)",
+                      }}
+                    />
+                    {errors.email && touched.email && (
+                      <Form.Label
+                        style={{
+                          position: "absolute",
+                          color: "red",
+                          fontSize: 8,
+                          paddingTop: 5,
+                          paddingLeft: 5,
+                        }}
+                        className="error"
+                      >
+                        {errors.email}
+                      </Form.Label>
+                    )}
+                  </Form.Group>
+                </Col>
+                <Col id="input-col-password" style={{ marginLeft: 30 }}>
+                  <Form.Group controlId="formBasicPassword">
+                    <Form.Label
+                      style={{
+                        fontWeight: "bolder",
+                        fontSize: 15,
+                        // marginTop: 5),
+                      }}
+                    >
+                      Your Password
+                    </Form.Label>
+                    <Form.Control
+                      name="password"
+                      type="password"
+                      id="input-password"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.password}
+                      size="large"
+                      style={{
+                        width: width / 6,
+
+                        flex: 1,
+                        marginTop: 20,
+                        height: "50px",
+                        display: "flex",
+                        borderRadius: 200,
+                        // backgroundColor: "rgba( 245, 244, 245, 100%)",
+                        border: "1px solid rgba(235,235,235,1)",
+                      }}
+                    />
+                    <Form.Label
+                      style={{
+                        position: "absolute",
+                        color: "red",
+                        fontSize: 8,
+                        paddingTop: 5,
+                        paddingLeft: 5,
+                      }}
+                      className="error"
+                    >
+                      {errors.password && touched.password && errors.password}
+                    </Form.Label>
+                  </Form.Group>
+                </Col>
+
+                {/* <div
                   style={{
                     flexDirection: "row",
                     flex: 1,
@@ -355,17 +457,7 @@ export default function Root() {
                     backgroundColor: "#000",
                   }}
                 > */}
-            </Row>
-            <Form.Item
-              style={{ marginTop: 30 }}
-              name="remember"
-              valuePropName="checked"
-
-              // wrapperCol={{
-              //   offset: 8,
-              //   span: 16,
-              // }}
-            >
+              </Row>
               <div
                 style={{
                   flexDirection: "row",
@@ -373,190 +465,233 @@ export default function Root() {
                   alignItems: "center",
                 }}
               >
-                <Checkbox style={{ color: "rgba(122,134,161,1)" }}>
-                  I accept the
-                </Checkbox>
-                <Link className="anchor-custom" title="Terms and Conditions" />
+                <div style={{}} onClick={() => setSwt(!swt)}>
+                  <Form.Check
+                    checked={swt}
+                    inline
+                    type={"checkbox"}
+                    id={`default-checkbox`}
+                    label={`I accept the `}
+                    style={{
+                      color: "rgba(122,134,161,1)",
+                      marginRight: 10,
+
+                      fontSize: 15,
+                    }}
+                  />
+                </div>
+
+                <Alert.Link style={{ fontSize: 15 }} >
+                  Terms and Conditions
+                </Alert.Link>
               </div>
-            </Form.Item>
-            <Form.Item
-              style={{ marginTop: 50 }}
-              wrapperCol={
-                {
-                  // offset: 8,
-                  // span: 16,
-                }
-              }
-            >
               <div
-                style={{
-                  flexDirection: "row",
-                  display: "flex",
-                  alignItems: "center",
-                }}
+                id="signIn-Div"
+                style={{ flexDirection: "row", display: "flex", marginTop: 30 }}
               >
                 <Button
-                  type="primary"
-                  htmlType="submit"
+                  type="submit"
                   style={{
                     width: 300,
+                    borderRadius: 100,
                     marginRight: 30,
                     height: 50,
                     boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.8)",
                     backgroundImage: `linear-gradient(to right, #694AC9, #AF55A8,#E25E8E)`,
                   }}
-                  block
-                  shape="round"
-                  size="large"
+                  variant="primary"
+                  size="lg"
                 >
-                  <Text
+                  <Form.Label
                     style={{
-                      textAlign: "center",
-                      verticalAlign: "middle",
+                      fontSize: 16,
                       color: "white",
                       fontWeight: "700",
                     }}
                   >
-                    Sign Up
-                  </Text>
+                    Sign In
+                  </Form.Label>
                 </Button>
                 <div
+                  id="signIn-row"
                   style={{
                     flexDirection: "row",
                     display: "flex",
                     alignItems: "center",
                   }}
                 >
-                  <Text
+                  <Form.Label
                     style={{
-                      fontSize: 15,
+                      fontSize: 14,
                       marginRight: 10,
                     }}
                   >
                     Already a member?
-                  </Text>
-                  <Link
-                    href={"/"}
-                    className="anchor-custom"
-                    title="  Sign In"
-                  />
+                  </Form.Label>
+                  <Alert.Link style={{ fontSize: 15 }} href="/">
+                    Sign in
+                  </Alert.Link>
                 </div>
               </div>
-            </Form.Item>
-          </Form>
-        </div>
-      </Layout>
-    );
-  };
-  const renderCopyright = () => {
-    return (
-      <div style={{ position: "absolute", right: 30, bottom: 30 }}>
-        <Text
-          style={{
-            color: "#212121",
-            fontSize: 14,
-          }}
-        >
-          ©Copyright 2022. Made by e21 designs
-        </Text>
+              {/* <Text
+                style={{
+                  fontWeight: "600",
+                  marginLeft: 50,
+                  color: "rgba(97,73,205,1)",
+                  // opacity: 0.6,
+                  fontSize: 14,
+                }}
+              >
+                {" "}
+                <Link className="anchor-custom" title="Forgot Password?" />
+              </Text> */}
+            </Form>
+          )}
+        </Formik>
       </div>
     );
   };
-
   const renderLeftView = () => {
     return (
-      <div style={{ height: "100vh", width: "47%" }}>
-        <div style={bgImg}>
-          <div style={logoImg}>
-            <Image
-              width={100}
-              style={{ alignSelf: "center", position: "absolute", top: 50 }}
-              preview={false}
-              src={logo}
-            />
-          </div>
-          <div style={peopleImg}>
-            <Image
-              width={width / 2}
-              preview={false}
-              style={{ marginBottom: 50 }}
-              src={register}
-            />
-          </div>
-
-          <div
+      // <div style={{ height: "100vh", width: "47%" }}>
+      <div style={bgImg} id="gradient-view">
+        <div style={logoImg} id="logo-view">
+          <Image
+            id="logo-image"
+            width={100}
+            style={{ alignSelf: "center", position: "absolute", top: 50 }}
+            preview={false}
+            src={logo}
+          />
+        </div>
+        <div style={peopleImg} id="person-view">
+          <Image
+            fluid
+            id="image-style"
+            width={900}
             style={{
-              position: "absolute",
-              bottom: "5%",
-              left: 50,
-              // marginStart: 35,
+              zIndex: 99,
+              // alignSelf: "center",
+              // alignContent: "center",
+              // alignItems: "center",
+              // justifyContent: "center",
             }}
-          >
-            <Text
-              level={5}
+            src={personImage}
+          />
+        </div>
+
+        <div
+          id="time-to-text"
+          style={{
+            position: "absolute",
+            bottom: "5%",
+            left: 50,
+            // marginStart: 35,
+          }}
+        >
+          <div>
+            <Form.Label
               style={{
-                color: "white",
                 fontSize: 30,
+                color: "white",
                 margin: 0,
                 padding: 0,
                 lineHeight: 0,
               }}
             >
               Welcome! Let's Create
-            </Text>
-            <Typography.Title
-              level={1}
+            </Form.Label>
+          </div>
+          <div>
+            <Form.Label
               style={{
                 color: "white",
                 fontSize: 70,
                 margin: 0,
+                fontWeight: 500,
                 padding: 0,
                 lineHeight: 1,
               }}
             >
               History
-            </Typography.Title>
-            <Typography.Title
-              level={1}
+            </Form.Label>
+          </div>
+          <div>
+            <Form.Label
               style={{
                 color: "white",
                 fontSize: 70,
                 margin: 0,
                 padding: 0,
+                fontWeight: 500,
+
                 lineHeight: 1,
               }}
             >
               Together
-            </Typography.Title>
+            </Form.Label>
           </div>
         </div>
+      </div>
+      // </div>
+    );
+  };
+
+  const renderCopyright = () => {
+    return (
+      <div style={{ position: "absolute", right: 30, bottom: 30 }}>
+        <Form.Label
+          style={{
+            color: "#212121",
+            fontSize: 14,
+          }}
+        >
+          ©Copyright 2022. Made by e21 designs
+        </Form.Label>
       </div>
     );
   };
 
   return (
     <>
-      <Layout style={mainContainer}>
-        {renderLeftView()}
-        {renderRightView()}
-        {renderCopyright()}
-
+      <Container class="container-fluid" style={{ maxWidth: "100%" }}>
+        <Row style={{}}>
+          <Col id="left-view" sm={6}>
+            {renderLeftView()}
+          </Col>
+          <Col
+            id="right-view"
+            style={{
+              height: "100vh",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            {renderRightView()}
+          </Col>
+        </Row>
+        {/* 
+        <Row style={{ flex: 1 }}>
+          <Col span={11} style={{ zIndex: 99 }}></Col>
+          <Col span={13} style={{}}>
+            {/* {renderCopyright()} */}
         {/* <img style={img} src={logo} alt="Logo" /> */}
-      </Layout>
+      </Container>
     </>
   );
 }
 
 const textView = {};
 const peopleImg = {
-  position: "absolute",
-
-  height: "90vh",
   display: "flex",
-  alignSelf: "center",
-  alignContent: "center",
-  alignItems: "center",
   justifyContent: "center",
+  // position: "absolute",
+  // display: "flex",
+  // alignSelf: "center",
+  // alignContent: "center",
+  // alignItems: "center",
+  // justifyContent: "center",
 };
 
 const logoImg = {
@@ -569,11 +704,12 @@ const logoImg = {
   alignContent: "flex-start",
   alignItems: "flex-start",
   justifyContent: "flex-start",
+  placeContent: "flex-start",
 };
 const mainContainer = {
-  flexDirection: "row",
-  backgroundColor: "#122",
-  height: "100vh",
+  // flexDirection: "row",
+  // backgroundColor: "#122",
+  // height: "100vh",
 };
 // const personImg = {
 //   backgroundImage: `url(${personImage})`,
