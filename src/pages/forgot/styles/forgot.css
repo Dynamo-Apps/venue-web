@@ -105,7 +105,7 @@ a {
   }
   body {
     overflow-x: auto !important;
-    overflow-y: auto  !important;
+    overflow-y: auto !important;
   }
   #border-line {
     margin-top: 10px !important;
@@ -160,6 +160,12 @@ a {
 }
 
 @media (max-width: 1520px) {
+}
+
+@media (max-height: 789px) {
+  #image-style {
+    display: none !important;
+  }
 }
 @media (max-width: 600px) {
   #image-style {

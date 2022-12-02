@@ -105,6 +105,8 @@ export default function Root() {
       >
         <Form.Label
           id="sign-text"
+          class="mt-5"
+
           style={{
             fontSize: 35,
             textAlign: "start",
@@ -295,7 +297,7 @@ export default function Root() {
                         // marginTop: 5),
                       }}
                     >
-                      Username
+                      User
                     </Form.Label>
                     <Form.Control
                       name="username"
@@ -481,7 +483,7 @@ export default function Root() {
                   />
                 </div>
 
-                <Alert.Link style={{ fontSize: 15 }} >
+                <Alert.Link style={{ fontSize: 15 }}>
                   Terms and Conditions
                 </Alert.Link>
               </div>
@@ -509,7 +511,7 @@ export default function Root() {
                       fontWeight: "700",
                     }}
                   >
-                    Sign In
+                    Sign Up
                   </Form.Label>
                 </Button>
                 <div

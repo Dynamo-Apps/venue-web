@@ -74,6 +74,7 @@ export default function Root() {
       >
         <Form.Label
           id="sign-text"
+          class="mt-3"
           style={{
             fontSize: 40,
             textAlign: "start",
@@ -415,7 +416,7 @@ export default function Root() {
         </div>
         <div style={peopleImg} id="person-view">
           <Image
-            fluid
+            fluid={true}
             id="image-style"
             width={900}
             style={{
@@ -433,7 +434,7 @@ export default function Root() {
           id="time-to-text"
           style={{
             position: "absolute",
-            bottom: "5%",
+            bottom: "10%",
             left: 50,
             // marginStart: 35,
           }}

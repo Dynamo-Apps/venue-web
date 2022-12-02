@@ -420,6 +420,7 @@ export default function Root() {
       >
         <Form.Label
           id="sign-text"
+          class='mt-3'
           style={{
             fontSize: 40,
             textAlign: "start",
