@@ -4,6 +4,7 @@ import personImage from "../../../assets/images/register.png";
 import Image from "react-bootstrap/Image";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import toast, { Toaster } from "react-hot-toast";
 
 import useWindowDimensions from "../../../hooks/useWindowDimensions";
 import "../styles/register.css";
@@ -19,9 +20,12 @@ import * as yup from "yup";
 import { Formik } from "formik";
 
 export default function Root() {
+  const notify = () => toast("Please accept the term and agreements");
+  const notifySuccess = () => toast("Success");
+
   const navigate = useNavigate();
-  const [swt, setSwt] = useState(true);
-  const [validated, setValidated] = useState(false);
+  const [swt, setSwt] = useState("");
+  const [validated, setValidated] = useState(true);
 
   const { height, width } = useWindowDimensions();
 
@@ -72,6 +76,7 @@ export default function Root() {
   });
 
   const handleSubmit = (event) => {
+    console.log("event", event);
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();
@@ -103,10 +108,10 @@ export default function Root() {
           }
         }
       >
+        <Toaster />
         <Form.Label
           id="sign-text"
           class="mt-5"
-
           style={{
             fontSize: 35,
             textAlign: "start",
@@ -208,7 +213,16 @@ export default function Root() {
         <Formik
           style={{ flex: 1 }}
           validationSchema={schema}
-          onSubmit={console.log}
+          // onSubmit={(val) => console.log(val)}
+          onSubmit={(val) => {
+            console.log("Enter in submit function", val);
+
+            if (swt == "") {
+              notify();
+            } else {
+              notifySuccess();
+            }
+          }}
           initialValues={{
             email: "",
             password: "",
@@ -236,7 +250,7 @@ export default function Root() {
                 >
                   <Form.Group
                     name="basic"
-                    controlId="formBasicName"
+                    // controlId="formBasicName"
                     onFinish={onFinish}
                     onFinishFailed={onFinishFailed}
                     autoComplete="off"
@@ -289,7 +303,9 @@ export default function Root() {
                   </Form.Group>
                 </Col>
                 <Col id="input-col-password" style={{ marginLeft: 30 }}>
-                  <Form.Group controlId="formBasicUsername">
+                  <Form.Group
+                  // controlId="formBasicUsername"
+                  >
                     <Form.Label
                       style={{
                         fontWeight: "bolder",
@@ -353,7 +369,7 @@ export default function Root() {
                 >
                   <Form.Group
                     name="basic"
-                    controlId="formBasicEmail"
+                    //  controlId="formBasicEmail"
                     onFinish={onFinish}
                     onFinishFailed={onFinishFailed}
                     autoComplete="off"
@@ -406,7 +422,9 @@ export default function Root() {
                   </Form.Group>
                 </Col>
                 <Col id="input-col-password" style={{ marginLeft: 30 }}>
-                  <Form.Group controlId="formBasicPassword">
+                  <Form.Group
+                  //  controlId="formBasicPassword"
+                  >
                     <Form.Label
                       style={{
                         fontWeight: "bolder",

@@ -136,6 +136,11 @@ a {
   #image-style {
     width: 200px !important;
   }
+  @media (max-height: 800px) {
+    #image-style {
+      width: 150px !important;
+    }
+  }
   #gradient-view {
     height: 18vh !important;
   }
@@ -162,11 +167,12 @@ a {
 @media (max-width: 1520px) {
 }
 
-@media (max-height: 789px) {
+@media (max-height: 600px) {
   #image-style {
     display: none !important;
   }
 }
+
 @media (max-width: 600px) {
   #image-style {
     /* height: 500px !important; */
