@@ -680,7 +680,7 @@ export default function Root() {
             {renderLeftView()}
           </Col>
           <Col
-            id="right-view"
+            id="right-view" class="col-md-9 no-float"
             style={{
               height: "100vh",
               display: "flex",
