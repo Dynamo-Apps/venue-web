@@ -98,12 +98,16 @@ a {
   }
 }
 
-/* @media (max-height: 667px) {
+@media (max-height: 783px) {
   #right-view {
-    width: 140% !important;
-    
+    margin-top: 80px !important;
   }
-} */
+}
+@media (max-height: 644px) {
+  #right-view {
+    margin-top: 80px !important;
+  }
+}
 @media (max-width: 600px) and (max-width: 1144px) {
   #social-button-col-fb {
     margin-bottom: 0px;
