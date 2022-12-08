@@ -1,0 +1,4 @@
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/dynaaatr/misshouni.dynamo-apps.com/
+    - /bin/cp -R * $DEPLOYPATH
