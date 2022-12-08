@@ -106,6 +106,7 @@ a {
 @media (max-height: 644px) {
   #right-view {
     margin-top: 80px !important;
+    display: grid !important;
   }
 }
 @media (max-width: 600px) and (max-width: 1144px) {
