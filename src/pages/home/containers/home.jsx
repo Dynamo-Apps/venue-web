@@ -1,36 +1,44 @@
+import { Button, Container, Form } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import styles from "../styles/home.module.css";
+
 export default function Root() {
+  const navigate = useNavigate();
+
   return (
-    <>
-      <div id="sidebar">
-        <h1>React Router Contacts</h1>
-        <div>
-          <form id="search-form" role="search">
-            <input
-              id="q"
-              aria-label="Search contacts"
-              placeholder="Search"
-              type="search"
-              name="q"
-            />
-            <div id="search-spinner" aria-hidden hidden={true} />
-            <div className="sr-only" aria-live="polite"></div>
-          </form>
-          <form method="post">
-            <button type="submit">New</button>
-          </form>
-        </div>
-        <nav>
-          <ul>
-            <li>
-              <a href={`contacts/1`}>Your Name</a>
-            </li>
-            <li>
-              <a href={`contacts/2`}>Your Friend</a>
-            </li>
-          </ul>
-        </nav>
-      </div>
-      <div id="detail"></div>
-    </>
+    <Container
+      class="d-flex justify-content-center vh-100"
+      className="viewBack"
+      id="viewBack"
+    >
+      <Button
+        onClick={() => {
+          navigate("/");
+        }}
+        id="social-button-button-fb"
+        variant="primary"
+        size="lg"
+        style={{
+          alignSelf: "center",
+          width: 300,
+          marginRight: 30,
+          borderRadius: 100,
+          height: 50,
+          boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.8)",
+          backgroundImage: `linear-gradient(to right, #F9AB38, #F9914B,#F96E63)`,
+        }}
+      >
+        <Form.Label
+          id="social-text"
+          style={{
+            fontSize: 16,
+            color: "white",
+            fontWeight: "700",
+          }}
+        >
+          Log Out
+        </Form.Label>
+      </Button>
+    </Container>
   );
 }

@@ -375,12 +375,25 @@ import InputGroup from "react-bootstrap/InputGroup";
 import { useState } from "react";
 import * as yup from "yup";
 import { Formik } from "formik";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+  sendPasswordResetEmail,
+} from "firebase/auth";
+import toast, { Toaster } from "react-hot-toast";
+import loader from "../../../components/loading";
 
 export default function Root() {
+  const notify = () => toast("Please accept the term and agreements...");
+
   const navigate = useNavigate();
   const [validated, setValidated] = useState(false);
 
   const { height, width } = useWindowDimensions();
+  const [loading, setLoading] = useState(false);
+  const auth = getAuth();
 
   const schema = yup.object().shape({
     email: yup.string().email().required("Email is required"),
@@ -403,6 +416,26 @@ export default function Root() {
     console.log("Failed:", errorInfo);
   };
 
+  const handleAction = (email) => {
+    setLoading(true);
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        toast("Password reset email sent!");
+
+        navigate("/");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        if (error.code === "auth/user-not-found") {
+          toast("No email found...");
+        } else if (error.code === "auth/invalid-email") {
+          toast("Invalid email...");
+        }
+        console.log("errorMessage", errorMessage);
+      })
+      .finally(() => setLoading(false));
+  };
   const renderRightView = () => {
     return (
       <div
@@ -420,7 +453,7 @@ export default function Root() {
       >
         <Form.Label
           id="sign-text"
-          class='mt-3'
+          class="mt-3"
           style={{
             fontSize: 40,
             textAlign: "start",
@@ -430,6 +463,7 @@ export default function Root() {
         >
           Forgot Password?
         </Form.Label>
+        <Toaster />
 
         <div style={{ display: "flex", alignSelf: "flex-start" }}>
           <Form.Label
@@ -447,7 +481,11 @@ export default function Root() {
         <Formik
           style={{ flex: 1 }}
           validationSchema={schema}
-          onSubmit={console.log}
+          onSubmit={(val) => {
+            console.log("Enter in submit function", val);
+
+            handleAction(val.email);
+          }}
           initialValues={{
             email: "",
           }}
@@ -528,6 +566,7 @@ export default function Root() {
               <div id="signIn-Div" style={{ marginTop: 30 }}>
                 <Button
                   type="submit"
+                  disabled={loading}
                   style={{
                     width: 300,
                     borderRadius: 100,
@@ -539,15 +578,19 @@ export default function Root() {
                   variant="primary"
                   size="lg"
                 >
-                  <Form.Label
-                    style={{
-                      fontSize: 16,
-                      color: "white",
-                      fontWeight: "700",
-                    }}
-                  >
-                    Submit
-                  </Form.Label>
+                  {loading ? (
+                    loader()
+                  ) : (
+                    <Form.Label
+                      style={{
+                        fontSize: 16,
+                        color: "white",
+                        fontWeight: "700",
+                      }}
+                    >
+                      Submit
+                    </Form.Label>
+                  )}
                 </Button>
                 <div
                   id="signIn-row"
@@ -556,10 +599,7 @@ export default function Root() {
                     alignItems: "center",
                   }}
                 >
-                  <Alert.Link
-                    style={{ fontSize: 15, marginTop: 20 }}
-                    href="/"
-                  >
+                  <Alert.Link style={{ fontSize: 15, marginTop: 20 }} href="/">
                     {"<"} Back to sign in?
                   </Alert.Link>
                 </div>

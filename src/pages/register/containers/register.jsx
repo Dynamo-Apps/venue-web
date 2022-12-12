@@ -25,6 +25,8 @@ import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
 } from "firebase/auth";
+import Spinner from "react-bootstrap/Spinner";
+import loader from "../../../components/loading";
 
 export default function Root() {
   const notify = () => toast("Please accept the term and agreements...");
@@ -35,6 +37,7 @@ export default function Root() {
   const navigate = useNavigate();
   const [swt, setSwt] = useState("");
   const [role, setRole] = useState("artist");
+  const [loading, setLoading] = useState(false);
 
   const [validated, setValidated] = useState(true);
 
@@ -56,6 +59,7 @@ export default function Root() {
   ];
 
   const handleAction = (id, email, password) => {
+    setLoading(true);
     const authentication = getAuth();
     if (id === 2) {
       createUserWithEmailAndPassword(authentication, email, password)
@@ -67,13 +71,15 @@ export default function Root() {
               navigate("/");
             })
             .catch((err) => alert(err.message));
+
           console.log(response);
         })
         .catch((e) => {
           if (e.code === "auth/email-already-in-use") {
             toast("Email is already in registered. Please try another...");
           }
-        });
+        })
+        .finally(() => setLoading(false));
     }
   };
   const renderDropDown = () => {
@@ -569,6 +575,7 @@ export default function Root() {
               >
                 <Button
                   type="submit"
+                  disabled={loading}
                   style={{
                     width: 300,
                     borderRadius: 100,
@@ -580,16 +587,21 @@ export default function Root() {
                   variant="primary"
                   size="lg"
                 >
-                  <Form.Label
-                    style={{
-                      fontSize: 16,
-                      color: "white",
-                      fontWeight: "700",
-                    }}
-                  >
-                    Sign Up
-                  </Form.Label>
+                  {loading ? (
+                    loader()
+                  ) : (
+                    <Form.Label
+                      style={{
+                        fontSize: 16,
+                        color: "white",
+                        fontWeight: "700",
+                      }}
+                    >
+                      Sign Up
+                    </Form.Label>
+                  )}
                 </Button>
+
                 <div
                   id="signIn-row"
                   style={{

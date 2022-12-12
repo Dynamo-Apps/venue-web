@@ -19,13 +19,27 @@ import * as yup from "yup";
 import { Formik } from "formik";
 import { Outlet, NavLink } from "react-router-dom";
 import { Nav, Navbar } from "react-bootstrap";
+import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth";
+import toast, { Toaster } from "react-hot-toast";
+import loader from "../../../components/loading";
 
 export default function Root() {
+  const auth = getAuth();
+  const provider = new GoogleAuthProvider();
+
   const navigate = useNavigate();
   const [swt, setSwt] = useState(true);
   const [validated, setValidated] = useState(false);
 
   const { height, width } = useWindowDimensions();
+  const notifySuccess = () => toast("Success");
 
   const schema = yup.object().shape({
     email: yup
@@ -39,6 +53,7 @@ export default function Root() {
       .min(6, "Password is too short - should be 6 chars minimum"),
     checkmark: yup.string(),
   });
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = (event) => {
     const form = event.currentTarget;
@@ -50,6 +65,59 @@ export default function Root() {
     setValidated(true);
   };
 
+  const googleLogin = () => {
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        // The signed-in user info.
+
+        const user = result.user;
+
+        toast("Success, signing in as " + user.displayName);
+
+        navigate("/home");
+
+        // ...
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error);
+
+        console.log("googleLogin", error);
+        // ...
+      });
+  };
+  const handleAction = (id, email, password) => {
+    setLoading(true);
+
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        console.log("userCredential", userCredential);
+        // Signed in
+        const user = userCredential.user;
+        toast("logged in, successfully...");
+
+        navigate("/home");
+
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        if (error.code === "auth/user-not-found") {
+          toast("No email found...");
+        }
+        console.log("errorMessage", errorMessage);
+      })
+      .finally(() => setLoading(false));
+  };
   const onFinish = (values) => {
     console.log("Success:", values);
   };
@@ -126,6 +194,7 @@ export default function Root() {
               id="social-button-button-google"
               variant="primary"
               size="lg"
+              onClick={() => googleLogin()}
               style={{
                 // width: width / 6,
                 width: 300,
@@ -176,7 +245,11 @@ export default function Root() {
         <Formik
           style={{ flex: 1 }}
           validationSchema={schema}
-          onSubmit={console.log}
+          onSubmit={(val) => {
+            console.log("Enter in submit function", val);
+
+            handleAction(2, val.email, val.password);
+          }}
           initialValues={{
             email: "",
             password: "",
@@ -341,6 +414,7 @@ export default function Root() {
               >
                 <Button
                   type="submit"
+                  disabled={loading}
                   style={{
                     width: 300,
                     borderRadius: 100,
@@ -352,15 +426,19 @@ export default function Root() {
                   variant="primary"
                   size="lg"
                 >
-                  <Form.Label
-                    style={{
-                      fontSize: 16,
-                      color: "white",
-                      fontWeight: "700",
-                    }}
-                  >
-                    Sign In
-                  </Form.Label>
+                  {loading ? (
+                    loader()
+                  ) : (
+                    <Form.Label
+                      style={{
+                        fontSize: 16,
+                        color: "white",
+                        fontWeight: "700",
+                      }}
+                    >
+                      Sign In
+                    </Form.Label>
+                  )}
                 </Button>
                 <div
                   id="signIn-row"
@@ -509,6 +587,8 @@ export default function Root() {
   return (
     <>
       <Container class="container-fluid" style={{ maxWidth: "100%" }}>
+        <Toaster />
+
         <Row style={{}}>
           <Col id="left-view" sm={6}>
             {renderLeftView()}
