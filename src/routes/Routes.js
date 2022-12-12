@@ -3,6 +3,8 @@ import { Button, DatePicker, Space, version } from "antd";
 import { createBrowserRouter, RouterProvider, Route } from "react-router-dom";
 import Login from "../pages/login/containers/login.jsx";
 import Register from "../pages/register/containers/register.jsx";
+import ConfirmEmail from "../pages/confim-email/containers/confirm-email.jsx";
+
 import ForgotPassword from "../pages/forgot/containers/forgot.jsx";
 
 import Home from "../pages/home/containers/home.jsx";
@@ -27,6 +29,11 @@ function Routes() {
     {
       path: "/register",
       element: <Register />,
+      errorElement: <ErrorPage />,
+    },
+    {
+      path: "/confirm-email",
+      element: <ConfirmEmail />,
       errorElement: <ErrorPage />,
     },
     {

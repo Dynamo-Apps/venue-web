@@ -18,13 +18,24 @@ import InputGroup from "react-bootstrap/InputGroup";
 import { useState } from "react";
 import * as yup from "yup";
 import { Formik } from "formik";
+import Dropdown from "react-bootstrap/Dropdown";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth";
 
 export default function Root() {
-  const notify = () => toast("Please accept the term and agreements");
+  const notify = () => toast("Please accept the term and agreements...");
   const notifySuccess = () => toast("Success");
+  const notifyRegisterSuccess = () =>
+    toast("Email Successfully created. Please verify using your email...");
 
   const navigate = useNavigate();
   const [swt, setSwt] = useState("");
+  const [role, setRole] = useState("artist");
+
   const [validated, setValidated] = useState(true);
 
   const { height, width } = useWindowDimensions();
@@ -44,22 +55,67 @@ export default function Root() {
     },
   ];
 
-  // const renderDropDown = () => {
-  //   return (
-  //     <div style={{ flexDirection: "row", marginTop: 20 }}>
-  //       <Text> You are the </Text>
-  //       <Select
-  //         defaultValue="Fan"
-  //         style={{
-  //           width: 300,
-  //           marginLeft: 20,
-  //         }}
-  //         onChange={handleChange}
-  //         options={items}
-  //       />
-  //     </div>
-  //   );
-  // };
+  const handleAction = (id, email, password) => {
+    const authentication = getAuth();
+    if (id === 2) {
+      createUserWithEmailAndPassword(authentication, email, password)
+        .then((response) => {
+          console.log("createUserWithEmailAndPassword", response);
+          sendEmailVerification(response.user.auth.currentUser)
+            .then(() => {
+              notifyRegisterSuccess();
+              navigate("/");
+            })
+            .catch((err) => alert(err.message));
+          console.log(response);
+        })
+        .catch((e) => {
+          if (e.code === "auth/email-already-in-use") {
+            toast("Email is already in registered. Please try another...");
+          }
+        });
+    }
+  };
+  const renderDropDown = () => {
+    return (
+      <Dropdown style={{}}>
+        <Form.Label
+          style={{
+            marginRight: "2rem",
+
+            color: "rgba(122,134,161,1)",
+            fontSize: 16,
+            fontWeight: "700",
+          }}
+        >
+          You are the
+        </Form.Label>
+
+        <Dropdown.Toggle
+          variant="primary-outline"
+          size="lg"
+          id="dropdown-basic-button"
+        >
+          {role}
+        </Dropdown.Toggle>
+
+        <Dropdown.Menu>
+          <Dropdown.Item onClick={(val) => setRole("Fan")} href="#/action-1">
+            <Form.Label>Fan</Form.Label>
+          </Dropdown.Item>
+          <Dropdown.Item onClick={(val) => setRole("Artist")} href="#/action-2">
+            Artist
+          </Dropdown.Item>
+          <Dropdown.Item
+            onClick={(val) => setRole("Venue Manager")}
+            href="#/action-3"
+          >
+            Venue Manager
+          </Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
+    );
+  };
   const schema = yup.object().shape({
     email: yup
       .string()
@@ -187,6 +243,8 @@ export default function Root() {
             </Button>
           </Col>
         </Row>
+
+        {renderDropDown()}
         <div
           id="border-line"
           style={{
@@ -220,7 +278,7 @@ export default function Root() {
             if (swt == "") {
               notify();
             } else {
-              notifySuccess();
+              handleAction(2, val.email, val.password);
             }
           }}
           initialValues={{
@@ -680,7 +738,8 @@ export default function Root() {
             {renderLeftView()}
           </Col>
           <Col
-            id="right-view" class="col-md-9 no-float"
+            id="right-view"
+            class="col-md-9 no-float"
             style={{
               height: "100vh",
               display: "flex",
