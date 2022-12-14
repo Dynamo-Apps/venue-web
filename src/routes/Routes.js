@@ -3,7 +3,8 @@ import { Button, DatePicker, Space, version } from "antd";
 import { createBrowserRouter, RouterProvider, Route } from "react-router-dom";
 import Login from "../pages/login/containers/login.jsx";
 import Register from "../pages/register/containers/register.jsx";
-import ConfirmEmail from "../pages/confim-email/containers/confirm-email.jsx";
+import ConfirmEmail from "../pages/confirm-email/containers/confirm-email.jsx";
+import AdditionalRegistration from "../pages/additional-registration/containers/additional-registration.jsx";
 
 import ForgotPassword from "../pages/forgot/containers/forgot.jsx";
 
@@ -15,6 +16,17 @@ function Routes() {
   useEffect(() => {});
 
   const router = createBrowserRouter([
+    // {
+    //   path: "/",
+    //   element: <Login />,
+    //   errorElement: <ErrorPage />,
+    //   // children: [
+    //   //   {
+    //   //     path: "contacts/:contactId",
+    //   //     element: <Contact />,
+    //   //   },
+    //   // ],
+    // },
     {
       path: "/",
       element: <Login />,
@@ -27,17 +39,17 @@ function Routes() {
       // ],
     },
     {
-      path: "/register",
+      path: "register",
       element: <Register />,
       errorElement: <ErrorPage />,
     },
     {
-      path: "/confirm-email",
+      path: "confirm-email",
       element: <ConfirmEmail />,
       errorElement: <ErrorPage />,
     },
     {
-      path: "/forgot-password",
+      path: "forgot-password",
       element: <ForgotPassword />,
     },
     {

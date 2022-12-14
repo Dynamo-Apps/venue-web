@@ -8,7 +8,7 @@ import toast, { Toaster } from "react-hot-toast";
 
 import useWindowDimensions from "../../../hooks/useWindowDimensions";
 import "../styles/register.css";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Alert from "react-bootstrap/Alert";
 
 import Container from "react-bootstrap/Container";
@@ -27,6 +27,7 @@ import {
 } from "firebase/auth";
 import Spinner from "react-bootstrap/Spinner";
 import loader from "../../../components/loading";
+import { Nav } from "react-bootstrap";
 
 export default function Root() {
   const notify = () => toast("Please accept the term and agreements...");
@@ -207,7 +208,7 @@ export default function Root() {
                 backgroundImage: `linear-gradient(to right, #F9AB38, #F9914B,#F96E63)`,
               }}
             >
-              <Form.Label
+              <text
                 id="social-text"
                 style={{
                   fontSize: 16,
@@ -216,7 +217,7 @@ export default function Root() {
                 }}
               >
                 with Facebook
-              </Form.Label>
+              </text>
             </Button>
           </Col>
 
@@ -236,7 +237,7 @@ export default function Root() {
                 backgroundImage: `linear-gradient(to right, #F9AB38, #F9914B,#F96E63)`,
               }}
             >
-              <Form.Label
+              <text
                 id="social-text"
                 style={{
                   fontSize: 16,
@@ -245,7 +246,7 @@ export default function Root() {
                 }}
               >
                 with Google
-              </Form.Label>
+              </text>
             </Button>
           </Col>
         </Row>
@@ -565,9 +566,13 @@ export default function Root() {
                   />
                 </div>
 
-                <Alert.Link style={{ fontSize: 15 }}>
+                <Nav.Link
+                  style={{ fontSize: 15 }}
+                  as={Link}
+                  // to="/forgot-password"
+                >
                   Terms and Conditions
-                </Alert.Link>
+                </Nav.Link>
               </div>
               <div
                 id="signIn-Div"
@@ -590,7 +595,7 @@ export default function Root() {
                   {loading ? (
                     loader()
                   ) : (
-                    <Form.Label
+                    <text
                       style={{
                         fontSize: 16,
                         color: "white",
@@ -598,7 +603,7 @@ export default function Root() {
                       }}
                     >
                       Sign Up
-                    </Form.Label>
+                    </text>
                   )}
                 </Button>
 
@@ -618,9 +623,9 @@ export default function Root() {
                   >
                     Already a member?
                   </Form.Label>
-                  <Alert.Link style={{ fontSize: 15 }} href="/">
+                  <Nav.Link style={{ fontSize: 15 }} as={Link} to="/">
                     Sign in
-                  </Alert.Link>
+                  </Nav.Link>
                 </div>
               </div>
               {/* <Text

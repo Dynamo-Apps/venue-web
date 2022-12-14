@@ -21,3 +21,8 @@ a {
   color: rgba(122, 134, 161, 1) !important;
   transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
 }
+
+.ant-steps-item-process .ant-steps-item-icon {
+  background-color: red !important;
+  border-color: red !important;
+}

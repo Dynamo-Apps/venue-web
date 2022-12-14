@@ -4,6 +4,7 @@ import personImage from "../../../assets/images/person-image.png";
 import Image from "react-bootstrap/Image";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import { Link } from "react-router-dom";
 
 import useWindowDimensions from "../../../hooks/useWindowDimensions";
 import "../styles/login.css";
@@ -18,7 +19,7 @@ import { useState } from "react";
 import * as yup from "yup";
 import { Formik } from "formik";
 import { Outlet, NavLink } from "react-router-dom";
-import { Nav, Navbar } from "react-bootstrap";
+import { Nav } from "react-bootstrap";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
 import {
@@ -176,7 +177,7 @@ export default function Root() {
                 backgroundImage: `linear-gradient(to right, #F9AB38, #F9914B,#F96E63)`,
               }}
             >
-              <Form.Label
+              <text
                 id="social-text"
                 style={{
                   fontSize: 16,
@@ -185,7 +186,7 @@ export default function Root() {
                 }}
               >
                 with Facebook
-              </Form.Label>
+              </text>
             </Button>
           </Col>
 
@@ -206,7 +207,7 @@ export default function Root() {
                 backgroundImage: `linear-gradient(to right, #F9AB38, #F9914B,#F96E63)`,
               }}
             >
-              <Form.Label
+              <text
                 id="social-text"
                 style={{
                   fontSize: 16,
@@ -215,7 +216,7 @@ export default function Root() {
                 }}
               >
                 with Google
-              </Form.Label>
+              </text>
             </Button>
           </Col>
         </Row>
@@ -404,9 +405,13 @@ export default function Root() {
                     }}
                   />
                 </div>
-                <Alert.Link style={{ fontSize: 15 }} href="/forgot-password">
+                <Nav.Link
+                  style={{ fontSize: 15 }}
+                  as={Link}
+                  to="/forgot-password"
+                >
                   Forgot Password?
-                </Alert.Link>
+                </Nav.Link>
               </div>
               <div
                 id="signIn-Div"
@@ -429,7 +434,7 @@ export default function Root() {
                   {loading ? (
                     loader()
                   ) : (
-                    <Form.Label
+                    <text
                       style={{
                         fontSize: 16,
                         color: "white",
@@ -437,7 +442,7 @@ export default function Root() {
                       }}
                     >
                       Sign In
-                    </Form.Label>
+                    </text>
                   )}
                 </Button>
                 <div
@@ -456,9 +461,10 @@ export default function Root() {
                   >
                     New User?{" "}
                   </Form.Label>
-                  <Alert.Link style={{ fontSize: 15 }} href="/register">
+
+                  <Nav.Link style={{ fontSize: 15 }} as={Link} to="/register">
                     Create an account
-                  </Alert.Link>
+                  </Nav.Link>
                 </div>
               </div>
               {/* <Text

@@ -17,6 +17,8 @@ import InputGroup from "react-bootstrap/InputGroup";
 import { useState } from "react";
 import * as yup from "yup";
 import { Formik } from "formik";
+import { Link } from "react-router-dom";
+import { Nav } from "react-bootstrap";
 
 export default function Root() {
   const navigate = useNavigate();
@@ -25,7 +27,7 @@ export default function Root() {
   const { height, width } = useWindowDimensions();
 
   const schema = yup.object().shape({
-    email: yup.string().required()
+    email: yup.string().required(),
   });
 
   const handleSubmit = (event) => {
@@ -198,9 +200,13 @@ export default function Root() {
                     alignItems: "center",
                   }}
                 >
-                  <Alert.Link style={{ fontSize: 15, marginTop: 20 }} href="/">
+                  <Nav.Link
+                    style={{ fontSize: 15, marginTop: 20 }}
+                    as={Link}
+                    to="/"
+                  >
                     {"<"} Back to sign in?
-                  </Alert.Link>
+                  </Nav.Link>
                 </div>
               </div>
               {/* <Text
