@@ -64,7 +64,10 @@ export default function Root() {
     sendPasswordResetEmail(auth, email)
       .then(() => {
         navigate("/");
-        setTimeout(() => {}, 2000);
+
+        setTimeout(() => {
+          toast("Password reset email sent!");
+        }, 2000);
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -78,7 +81,6 @@ export default function Root() {
       })
       .finally(() => {
         setLoading(false);
-        toast("Password reset email sent!");
       });
   };
   const renderRightView = () => {

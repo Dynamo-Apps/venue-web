@@ -102,11 +102,19 @@ export default function Root() {
       .then((userCredential) => {
         console.log("userCredential", userCredential);
         // Signed in
+
         const user = userCredential.user;
-        toast("logged in, successfully...");
+        let verified = user.emailVerified;
+        console.log("====================================");
+        console.log(userCredential);
+        console.log("====================================");
 
-        navigate("/home");
-
+        if (verified) {
+          toast("logged in, successfully...");
+          navigate("/home");
+        } else {
+          toast("Please verify the email to continue...");
+        }
         // ...
       })
       .catch((error) => {
@@ -114,6 +122,8 @@ export default function Root() {
         const errorMessage = error.message;
         if (error.code === "auth/user-not-found") {
           toast("No email found...");
+        } else if (error.code === "auth/user-not-found") {
+          toast("Wrong password...");
         }
         console.log("errorMessage", errorMessage);
       })

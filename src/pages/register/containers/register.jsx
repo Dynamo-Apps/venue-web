@@ -37,7 +37,7 @@ export default function Root() {
 
   const navigate = useNavigate();
   const [swt, setSwt] = useState("");
-  const [role, setRole] = useState("artist");
+  const [role, setRole] = useState("");
   const [loading, setLoading] = useState(false);
 
   const [validated, setValidated] = useState(true);
@@ -63,24 +63,33 @@ export default function Root() {
     setLoading(true);
     const authentication = getAuth();
     if (id === 2) {
-      createUserWithEmailAndPassword(authentication, email, password)
-        .then((response) => {
-          console.log("createUserWithEmailAndPassword", response);
-          sendEmailVerification(response.user.auth.currentUser)
-            .then(() => {
-              notifyRegisterSuccess();
-              navigate("/");
-            })
-            .catch((err) => alert(err.message));
+      if (role === "") {
+        toast("Please select your role...");
+        setLoading(false);
+      } else {
+        createUserWithEmailAndPassword(authentication, email, password)
+          .then((response) => {
+            console.log("createUserWithEmailAndPassword", response);
+            sendEmailVerification(response.user.auth.currentUser)
+              .then(() => {
+                // notifyRegisterSuccess();
+                navigate("/");
+              })
+              .catch((err) => alert(err.message))
+              .finally(() => {
+                setLoading(false);
+                toast("Success, please verify the email before logging in...");
+              });
 
-          console.log(response);
-        })
-        .catch((e) => {
-          if (e.code === "auth/email-already-in-use") {
-            toast("Email is already in registered. Please try another...");
-          }
-        })
-        .finally(() => setLoading(false));
+            console.log(response);
+          })
+          .catch((e) => {
+            if (e.code === "auth/email-already-in-use") {
+              toast("Email is already in registered. Please try another...");
+            }
+          })
+          .finally(() => setLoading(false));
+      }
     }
   };
   const renderDropDown = () => {
@@ -89,7 +98,6 @@ export default function Root() {
         <Form.Label
           style={{
             marginRight: "2rem",
-
             color: "rgba(122,134,161,1)",
             fontSize: 16,
             fontWeight: "700",
