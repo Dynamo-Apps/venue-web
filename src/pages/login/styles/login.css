@@ -42,6 +42,10 @@ a {
   height: -webkit-fill-available !important;
   margin-bottom: 100px !important;
 }
+
+#gradient-view {
+  min-height: 100px !important;
+}
 /* 
 @media (min-width: 576px) .col-sm-5 {
   flex: 0 0 auto;
@@ -49,7 +53,6 @@ a {
 } */
 
 @media (max-width: 1398px) {
-  
   #input-col-password {
     margin-left: 0 !important;
     flex: 1 !important;
@@ -71,7 +74,6 @@ a {
     width: min-content !important;
   }
   #image-style {
-    
     /* width: 1000px !important; */
   }
 

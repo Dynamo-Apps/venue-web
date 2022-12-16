@@ -78,7 +78,7 @@ export default function Root() {
 
         toast("Success, signing in as " + user.displayName);
 
-        navigate("/home");
+        navigate("/additional-registration");
 
         // ...
       })
@@ -111,7 +111,7 @@ export default function Root() {
 
         if (verified) {
           toast("logged in, successfully...");
-          navigate("/home");
+          navigate("/additional-registration");
         } else {
           toast("Please verify the email to continue...");
         }
@@ -510,11 +510,12 @@ export default function Root() {
         </div>
         <div style={peopleImg} id="person-view">
           <Image
-            fluid={true}
             id="image-style"
-            width={900}
+            // width={900}
             style={{
               zIndex: 99,
+              minHeight: "100px",
+
               // alignSelf: "center",
               // alignContent: "center",
               // alignItems: "center",

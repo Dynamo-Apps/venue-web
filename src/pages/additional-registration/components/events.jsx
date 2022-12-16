@@ -1,12 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import gradientImage from "../../../assets/images/gradient-image.png";
-import logo from "../../../assets/images/logo.png";
-import personImage from "../../../assets/images/location.png";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Image from "react-bootstrap/Image";
+
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Pagination from "react-bootstrap/Pagination";
@@ -14,216 +9,210 @@ import Pagination from "react-bootstrap/Pagination";
 import { useNavigate } from "react-router-dom";
 
 import styles from "../styles/additional-registration.module.css";
+import { useState } from "react";
+import { Col, Image, Row } from "react-bootstrap";
+import Select, { components, ControlProps } from "react-select";
+import Checkmark from "../../../../src/assets/images/checkmark.png";
+import NonCheckmark from "../../../../src/assets/images/not-checkmark.png";
 
-export default function index() {
+export default function Root() {
+  const [selectedOptions, setSelectedOptions] = useState();
+  const [userinfo, setUserInfo] = useState({
+    languages: [],
+    response: [],
+  });
+
+  const [selectedBoxes, setSelectedBoxes] = useState([
+    { name: "music", selected: false },
+    { name: "circus", selected: false },
+
+    { name: "live", selected: false },
+
+    { name: "comedy", selected: false },
+
+    { name: "online", selected: false },
+
+    { name: "dance", selected: false },
+
+    { name: "magic", selected: false },
+  ]);
+
+  // "showing" key:value pair optional
+  const optionList = [
+    { value: "rock", label: "Rock" },
+    { value: "hiphop", label: "Hip hop" },
+    { value: "pop", label: "Pop" },
+    { value: "stand-up", label: "Stand up" },
+  ];
+  const handleChange = (e) => {
+    // Destructuring
+    const { value, checked } = e.target;
+    const { languages } = userinfo;
+
+    console.log(`${value} is ${checked}`);
+
+    // Case 1 : The user checks the box
+    if (checked) {
+      setUserInfo({
+        languages: [...languages, value],
+        response: [...languages, value],
+      });
+    }
+
+    // Case 2  : The user unchecks the box
+    else {
+      setUserInfo({
+        languages: languages.filter((e) => e !== value),
+        response: languages.filter((e) => e !== value),
+      });
+    }
+  };
+  function handleSelect(data) {
+    setSelectedOptions(data);
+  }
+
+  const renderBoxes = (item, indexMain) => {
+    // return item.selected ? (
+    return indexMain < 3 ? (
+      <Col onClick={() => {}} class="m-2 mb-3">
+        <div
+          style={{
+            border: "1px solid #6149CD",
+            height: 66,
+            width: 130,
+            marginTop: 20,
+            display: "flex",
+            borderRadius: 20,
+            justifyContent: "center",
+          }}
+        >
+          <div
+            style={{
+              flexDirection: "row",
+              alignSelf: "center",
+              display: "flex",
+            }}
+          >
+            <Image src={NonCheckmark} style={nonCheckmark} />
+            <Form.Label
+              style={{ fontSize: 12, color: "#7A86A1", marginLeft: 10 }}
+            >
+              {item.name}
+            </Form.Label>
+          </div>
+        </div>
+      </Col>
+    ) : (
+      <Col
+        onClick={() => {
+          for (let index = 0; index < selectedBoxes.length; index++) {
+            const element = selectedBoxes[index];
+
+            if (index == indexMain) {
+              console.log("====================================");
+              console.log(element.selected);
+              console.log("====================================");
+            }
+
+            // setSelectedBoxes(Object.assign(element));
+          }
+
+          // let editedBox = { name: item.name, selected: true };
+          // selectedBoxes = selectedBoxes.map((u) =>
+          //   u !== editedBox.id ? u : editedBox
+          // );
+        }}
+        class="m-2 mb-3"
+        // style={{ marginLeft: 20 }}
+      >
+        <div
+          style={{
+            height: 66,
+            width: 130,
+            marginTop: 20,
+
+            backgroundColor: " #6149CD",
+            display: "flex",
+            borderRadius: 20,
+            justifyContent: "center",
+          }}
+        >
+          <div
+            style={{
+              flexDirection: "row",
+              alignSelf: "center",
+              display: "flex",
+            }}
+          >
+            <Image src={Checkmark} style={checkmark} />
+            <Form.Label
+              style={{ fontSize: 12, color: "white", marginLeft: 10 }}
+            >
+              {item.name}
+            </Form.Label>
+          </div>
+        </div>
+      </Col>
+    );
+  };
   return (
-    <>
-      <Form>
-        <Form.Label
-          style={{
-            fontSize: "15px",
-            fontWeight: 500,
-            marginVertical: 10,
-            color: "black",
-          }}
-        >
-          Add Address
-        </Form.Label>
-        <Form.Group
-          className="mb-3"
-          style={{
-            marginTop: 10,
-          }}
-        >
-          <Row>
-            <Col class="col-md-5" style={{}}>
-              <Form.Label
-                htmlFor="Select"
-                class="form-label"
-                style={{
-                  marginTop: 10,
-                  fontWeight: 600,
-                }}
-              >
-                Location
-              </Form.Label>
-            </Col>
-            <Col class="col-md-7">
-              <Form.Select id="delect" style={selectStyle}>
-                <option>Select Country</option>
-                <option>USA</option>
-                <option>UK</option>
-              </Form.Select>
-              <Form.Control
-                style={selectStyle}
-                type="Text"
-                placeholder="City"
-              />
-              <Form.Control
-                style={selectStyle}
-                type="Text"
-                placeholder="State"
-              />
-            </Col>
-          </Row>
-        </Form.Group>
-        <Form.Group
-          className="mb-3"
-          style={{
-            marginTop: 0,
-          }}
-        >
-          <Row>
-            <Col
-              class="col-md-5"
-              style={{
-                marginTop: 30,
-              }}
-            >
-              <Form.Label
-                htmlFor="Select"
-                style={{
-                  fontWeight: 600,
-                }}
-              >
-                Address Line 1
-              </Form.Label>
-            </Col>
-            <Col
-              class="col-md-7"
-              style={{
-                marginLeft: 20,
-              }}
-            >
-              <Form.Control
-                style={selectStyle}
-                type="Text"
-                placeholder="Your Address"
-              />
-            </Col>
-          </Row>
-        </Form.Group>
-        <Form.Group
-          className="mb-3"
-          style={{
-            marginTop: 0,
-          }}
-        >
-          <Row>
-            <Col
-              class="col-md-5"
-              style={{
-                marginTop: 10,
-              }}
-            >
-              <Form.Label
-                htmlFor="Select"
-                style={{
-                  fontWeight: 600,
-                }}
-              >
-                Address Line 2
-              </Form.Label>
-            </Col>
-            <Col
-              class="col-md-7"
-              style={{
-                marginLeft: 20,
-              }}
-            >
-              <Form.Control
-                style={selectStyle}
-                type="Text"
-                placeholder="Your Address"
-              />
-            </Col>
-          </Row>
-        </Form.Group>
-        <Form.Group
-          className="mb-3"
+    <div class="container">
+      <div class="main">
+        <Row>
+          <div className="container-fluid">
+            <Form.Label class="mb-3" style={{ fontSize: 14, color: "black" }}>
+              Select the type of event you would like to host{" "}
+            </Form.Label>
+            <Row class="d-inline-flex" sm={5}>
+              {selectedBoxes.map((item, index) => renderBoxes(item, index))}
+            </Row>
+          </div>
+        </Row>
+        <Row
           style={{
             marginTop: 20,
           }}
         >
-          <Row>
-            <Col
-              class="col-sm-5"
+          <div className="container-fluid top">
+            <Form.Label
+              class="mb-3"
               style={{
-                marginTop: 10,
+                fontSize: 14,
+                color: "black",
               }}
             >
-              <Form.Label
-                htmlFor="Select"
-                style={{
-                  fontWeight: 600,
-                }}
-              >
-                Zip code
-              </Form.Label>
-            </Col>
-            <Col
-              class="col-sm-7"
-              style={{
-                marginLeft: 20,
-              }}
-            >
-              <Form.Control
-                style={selectStyle}
-                type="Text"
-                placeholder="Your Address"
-              />
-            </Col>
-          </Row>
-        </Form.Group>
-        <Row>
-          <Col
-            class="col"
-            style={{
-              marginRight: 100,
-            }}
-          >
-            {/* <Button
-                type="add"
-                className="address"
-                style={{
-                  borderRadius: 100,
-                  width: 160,
-                  height: 40,
-                }}
-              >
-                + Add Address
-              </Button> */}
-          </Col>
-          <Col
-            class="col"
-            style={
-              {
-                // marginRight: "2%",
-                // marginLeft: "4%",
-                // alignItems: "right",
+              Add Genres that you would host
+            </Form.Label>
+            <div
+              className="dropdown-container"
+              style={
+                {
+                  // height: 48,
+                }
               }
-            }
-          >
-            <Button type="cancel" className={styles.buttonSave}>
-              Cancel
-            </Button>
-          </Col>
-          <Col class="col">
-            <Button
-              type="save"
-              className={styles.buttonSave}
-              // style={{
-              //   borderRadius: 100,
-              //   width: 100,
-              //   height: 40,
-              // }}
             >
-              Save
-            </Button>
-          </Col>
+              <Select
+                options={optionList}
+                placeholder="Select by genre"
+                value={selectedOptions}
+                onChange={handleSelect}
+                // className={styles.selectControl}
+                isSearchable={true}
+                isMulti
+                // components={(val) => (
+                //   <components.Control>
+                //     <Image src={Search} style={search} />
+                //     {val}
+                //   </components.Control>
+                // )}
+
+                // styles={colorS}
+              ></Select>
+            </div>
+          </div>
         </Row>
-      </Form>
-    </>
+      </div>
+    </div>
   );
 }
 const textView = {};
@@ -270,4 +259,16 @@ const bgImg = {
   backgroundSize: "cover",
   backgroundRepeat: "no-repeat",
   height: "100vh",
+};
+const nonCheckmark = {
+  backgroundSize: "center",
+  backgroundPosition: "center",
+  height: "1.5vh",
+  alignSelf: "center",
+};
+const checkmark = {
+  backgroundSize: "center",
+  backgroundPosition: "center",
+  height: "1.5vh",
+  alignSelf: "center",
 };

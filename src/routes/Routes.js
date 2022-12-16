@@ -16,20 +16,9 @@ function Routes() {
   useEffect(() => {});
 
   const router = createBrowserRouter([
-    // {
-    //   path: "/",
-    //   element: <Login />,
-    //   errorElement: <ErrorPage />,
-    //   // children: [
-    //   //   {
-    //   //     path: "contacts/:contactId",
-    //   //     element: <Contact />,
-    //   //   },
-    //   // ],
-    // },
     {
       path: "/",
-      element: <Login />,
+      element: <AdditionalRegistration />,
       errorElement: <ErrorPage />,
       // children: [
       //   {
@@ -55,6 +44,17 @@ function Routes() {
     {
       path: "/home",
       element: <Home />,
+    },
+    {
+      path: "/additional-registration",
+      element: <AdditionalRegistration />,
+      errorElement: <ErrorPage />,
+      // children: [
+      //   {
+      //     path: "contacts/:contactId",
+      //     element: <Contact />,
+      //   },
+      // ],
     },
   ]);
   return <RouterProvider router={router} />;

@@ -247,6 +247,8 @@ export default function Root() {
             width={900}
             style={{
               zIndex: 99,
+              minHeight: "100px", 
+
               // alignSelf: "center",
               // alignContent: "center",
               // alignItems: "center",

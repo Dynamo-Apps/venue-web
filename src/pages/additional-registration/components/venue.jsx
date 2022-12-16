@@ -11,10 +11,23 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Pagination from "react-bootstrap/Pagination";
 import { useState } from "react";
-import Logo from "../../../../src/assets/images/forgot.png";
+import Logo from "../../../../src/assets/images/venue-logo.png";
+import Trash from "../../../../src/assets/images/trash-icon.png";
+import Search from "../../../../src/assets/images/search-icon.png";
+
+import Upload from "../../../../src/assets/images/upload.png";
+import UserImage from "../../../../src/assets/images/userImage.png";
+import ArrowDown from "../../../../src/assets/images/arrow-down.png";
+
+import Dropdown from "react-bootstrap/Dropdown";
+import styles from "../styles/additional-registration.module.css";
+
 import { useEffect } from "react";
-export default function Index() {
+export default function Root() {
   const [image, setImage] = useState({ preview: "", raw: "" });
+  const [imageLogo, setImageLogo] = useState({ preview: "", raw: "" });
+  const [view, setView] = useState("Timeline");
+
   const handleChange = (e) => {
     if (e.target.files.length) {
       setImage({
@@ -23,8 +36,14 @@ export default function Index() {
       });
     }
   };
-
-
+  const handleChangeLogo = (e) => {
+    if (e.target.files.length) {
+      setImageLogo({
+        preview: URL.createObjectURL(e.target.files[0]),
+        raw: e.target.files[0],
+      });
+    }
+  };
   const handleUpload = async (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -38,271 +57,545 @@ export default function Index() {
       body: formData,
     });
   };
-  const RenderRightView = () => {
+
+  const renderTeamSection = () => {
     return (
-      <div class="main">
-        <Row className="col-md-12">
-          <Col
-            className="col-md-4 upload"
+      <div>
+        <div>
+          <Row style={{ flexDirection: "row", flex: 1 }}>
+            <text style={{ flex: 0.3, alignSelf: "center" }}>Invite Team</text>
+            <div style={{ flex: 1, flexDirection: "row" }}>
+              <Image src={Search} style={search} />
+
+              <Form.Control
+                style={{}}
+                placeholder="Search name or email"
+                className={styles.teamSearch}
+              ></Form.Control>
+            </div>
+
+            <div
+              style={{
+                flex: 0.3,
+                display: "flex",
+                alignItems: "flex-end",
+                justifyContent: "flex-end",
+              }}
+            >
+              <Button type="cancel" className={styles.buttonSave}>
+                Invite
+              </Button>
+            </div>
+          </Row>
+        </div>
+
+        <div
+          class="mt-5"
+          style={{
+            flexDirection: "row",
+            flex: 1,
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          <text style={{ fontSize: 13, color: "#000" }}>Users</text>
+          <Form.Label
             style={{
-              alignItems: "center",
+              color: "#7A86A1",
+              fontSize: 13,
+              fontWeight: "300",
             }}
           >
-            <Row
+            Imported Contacts
+          </Form.Label>
+        </div>
+
+        <div
+          class="mt-4 mb-3"
+          style={{ height: 1, backgroundColor: "#EBEBEB" }}
+        />
+        <div class="mt-3 mb-3">
+          <div
+            class="mt-3"
+            style={{ flexDirection: "row", display: "flex", flex: 1 }}
+          >
+            <div style={{ flex: 0.1 }}>
+              <Image src={UserImage} style={userImage} />
+            </div>
+
+            <div
               style={{
-                marginBottom: 9,
+                flex: 0.7,
+                flexDirection: "column",
+              }}
+            >
+              <Col>
+                <Form.Label style={{ fontWeight: "400" }}>John Does</Form.Label>
+              </Col>
+              <Col>
+                <Form.Label style={{ fontWeight: "300", color: "#7A86A1" }}>
+                  John@google.com
+                </Form.Label>
+              </Col>
+            </div>
+
+            <div
+              style={{
+                flex: 0.2,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                alignContent: "center",
+              }}
+            >
+              <Form.Label
+                style={{ color: "#7A86A1", marginRight: 0, flex: 0.6 }}
+              >
+                Guest
+              </Form.Label>
+              <Image src={ArrowDown} style={arrow} />
+            </div>
+          </div>
+          {/* <text>asdasd</text>
+            <text>asdasd</text> */}
+        </div>
+
+        <div class="mt-3 mb-3">
+          <div
+            class="mt-3"
+            style={{ flexDirection: "row", display: "flex", flex: 1 }}
+          >
+            <div style={{ flex: 0.1 }}>
+              <Image src={UserImage} style={userImage} />
+            </div>
+
+            <div
+              style={{
+                flex: 0.7,
+                flexDirection: "column",
+              }}
+            >
+              <Col>
+                <Form.Label style={{ fontWeight: "400" }}>John Does</Form.Label>
+              </Col>
+              <Col>
+                <Form.Label style={{ fontWeight: "300", color: "#7A86A1" }}>
+                  John@google.com
+                </Form.Label>
+              </Col>
+            </div>
+
+            <div
+              style={{
+                flex: 0.2,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                alignContent: "center",
+              }}
+            >
+              <Form.Label
+                style={{ color: "#7A86A1", marginRight: 0, flex: 0.6 }}
+              >
+                Guest
+              </Form.Label>
+              <Image src={ArrowDown} style={arrow} />
+            </div>
+          </div>
+          {/* <text>asdasd</text>
+            <text>asdasd</text> */}
+        </div>
+
+        <div class="mt-3 mb-3">
+          <div
+            class="mt-3"
+            style={{ flexDirection: "row", display: "flex", flex: 1 }}
+          >
+            <div style={{ flex: 0.1 }}>
+              <Image src={UserImage} style={userImage} />
+            </div>
+
+            <div
+              style={{
+                flex: 0.7,
+                flexDirection: "column",
+              }}
+            >
+              <Col>
+                <Form.Label style={{ fontWeight: "400" }}>
+                  Harry Newuman
+                </Form.Label>
+              </Col>
+              <Col>
+                <Form.Label style={{ fontWeight: "300", color: "#7A86A1" }}>
+                  Harry@google.com
+                </Form.Label>
+              </Col>
+            </div>
+
+            <div
+              style={{
+                flex: 0.2,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                alignContent: "center",
+              }}
+            >
+              <Form.Label
+                style={{ color: "#7A86A1", marginRight: 0, flex: 0.6 }}
+              >
+                Admin
+              </Form.Label>
+              <Image src={ArrowDown} style={arrow} />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const renderDropDown = () => {
+    return (
+      <Dropdown style={{ display: "flex" }} class="mt-2">
+        <Dropdown.Toggle
+          variant="primary-outline"
+          size="lg"
+          className={styles.dropdown}
+          style={{
+            border: 1,
+          }}
+        >
+          {view}
+        </Dropdown.Toggle>
+
+        <Dropdown.Menu>
+          <Dropdown.Item
+            onClick={(val) => setView("Timeline")}
+            href="#/action-1"
+          >
+            <Form.Label>Timeline</Form.Label>
+          </Dropdown.Item>
+          <Dropdown.Item onClick={(val) => setView("Home")} href="#/action-2">
+            Home
+          </Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
+    );
+  };
+
+  return (
+    <div class="main">
+      <Row className="col-md-12">
+        <Col
+          style={{
+            alignItems: "center",
+          }}
+        >
+          <Row
+            style={{
+              marginBottom: 9,
+            }}
+          >
+            <Form.Label
+              style={{
                 fontSize: 13,
                 fontWeight: 600,
               }}
             >
               Venue Logo
-            </Row>
-            <Row>
-              <div>
-                <label htmlFor="upload-button">
-                  {image.preview ? (
-                    <img
-                      src={image.preview}
-                      alt="dummy"
-                      width="300"
-                      height="300"
-                    />
-                  ) : (
-                    <>
-                      {/* <span>
-                        <Image src={Logo} style={logoupload} />
-                      </span> */}
-                    </>
-                  )}
-                </label>
-                <input
-                  type="file"
-                  id="upload-button"
-                  style={{ display: "none" }}
-                  onChange={handleChange}
-                />
-                <br />
-              </div>
-            </Row>
-            <Row
-              style={{
-                marginTop: 20,
-                marginRight: 80,
-              }}
-            >
-              <a className="delete">Delete</a>
-            </Row>
-          </Col>
-          <Col className="col-md-8 textbox">
-            <Row
-              style={{
-                marginBottom: 5,
-                fontSize: 13,
-                fontWeight: 600,
-              }}
-            >
-              <Form.Label
-                style={{
-                  fontSize: 13,
-                  fontWeight: 600,
-                  color: "black",
-                }}
-              >
-                Venue Name{" "}
-              </Form.Label>
-            </Row>
-            <Row>
-              <Form col-sm-12 className="box">
-                <Form.Control
-                  style={{
-                    marginTop: 20,
-                    height: "40px",
-                    display: "flex",
-                    borderRadius: 200,
-                    width: "calc(110%-30px)",
-                    paddingLeft: "10",
-                  }}
-                  type="Text"
-                  placeholder="Enter your venue name here"
-                />
-              </Form>
-            </Row>
-            <Row
-              style={{
-                marginTop: 25,
-                fontSize: 13,
-                fontWeight: 600,
-              }}
-            >
-              <Form.Label
-                style={{
-                  fontSize: 13,
-                  fontWeight: 600,
-                  color: "black",
-                }}
-              >
-                Venue Description - <span>Optional </span>
-              </Form.Label>
-            </Row>
-            <Row>
-              <Form col-sm-12>
-                <Form.Control
-                  as="textarea"
-                  rows={3}
-                  placeholder="A small description about venue"
-                  style={{
-                    marginTop: 20,
-                    height: "15vh",
-                    display: "flex",
-                    borderRadius: 10,
-                    width: "calc(110%-30px)",
-                  }}
-                ></Form.Control>
-              </Form>
-            </Row>
-            <Row
-              style={{
-                marginTop: 26,
-                fontSize: 13,
-                fontWeight: 600,
-              }}
-            >
-              <Form.Label
-                style={{
-                  fontSize: 13,
-                  fontWeight: 600,
-                  color: "black",
-                }}
-              >
-                Invite team
-              </Form.Label>
-            </Row>
-            <Form col-sm-12 className="box"></Form>
-          </Col>
-        </Row>
-        <Row>
-          <Col className="col-8">
-            <div className="image">
-              <div className="card">
-                <div className="box">
-                  <div>
-                    <label htmlFor="upload-button">
-                      {image.preview ? (
-                        <img
-                          src={image.preview}
-                          alt="dummy"
-                          width="300"
-                          height="300"
-                        />
-                      ) : (
-                        <>
-                          {/* <span>
-                            <Image src={Logo} style={logoupload} />
-                          </span> */}
-                        </>
-                      )}
-                    </label>
-                    <input
-                      type="file"
-                      id="upload-button"
-                      style={{ display: "none" }}
-                      onChange={handleChange}
-                    />
-                    <br />
-                  </div>
-                  <div class="text">Upload files</div>
-                </div>
-              </div>
+            </Form.Label>
+          </Row>
+          <Row>
+            <div>
+              <label htmlFor="upload-button">
+                {image.preview ? (
+                  <img
+                    style={{ backgroundSize: "contain" }}
+                    src={image.preview}
+                    alt="dummy"
+                    width="120"
+                    height="120"
+                  />
+                ) : (
+                  <>
+                    <span>
+                      <Image src={Logo} style={logoupload} />
+                    </span>
+                  </>
+                )}
+              </label>
+              <input
+                type="file"
+                id="upload-button"
+                style={{ display: "none" }}
+                onChange={handleChange}
+              />
             </div>
-          </Col>
-          <Col className="col-4">
-            <Row
+          </Row>
+          <Row
+            style={
+              {
+                // backgroundColor:'red'
+                // marginTop: 10,
+                // marginRight: 80,
+              }
+            }
+          >
+            <div
+              onClick={() => setImage({ preview: "", raw: "" })}
+              class="d-flex justify-content-center"
               style={{
-                marginTop: 25,
-                fontSize: 13,
-                fontWeight: 600,
+                height: "3rem",
+                width: "8rem",
+
+                borderRadius: 200,
+                // backgroundColor: "rgba( 245, 244, 245, 100%)",
+                border: "1px solid rgba(235,235,235,1)",
               }}
             >
-              <Form col-sm-12>
-                <Form.Label
-                  style={{
-                    fontSize: 13,
-                    fontWeight: 600,
-                    color: "black",
-                  }}
-                >
-                  Venue Launch Date{" "}
-                </Form.Label>
-              </Form>
-            </Row>
-            <Row>
-              <Form col-sm-12>
-                <Form.Control
-                  style={{
-                    marginTop: 30,
-                    height: "40px",
-                    display: "flex",
-                    borderRadius: 200,
-                    width: "calc(110%-30px)",
-                    paddingLeft: "10",
-                  }}
-                  type="Date"
-                  placeholder="Enter your venue name here"
-                />
-              </Form>
-            </Row>
-          </Col>
-        </Row>
-      </div>
-    );
-  };
-  const renderLeftView = () => {
-    return (
-      <div style={bgImg} id="gradient-view">
-        <div style={logoImg} id="logo-view">
-          <Image
-            id="logo-image"
-            width={100}
-            style={{ alignSelf: "center", position: "absolute", top: 50 }}
-            preview={false}
-            src={logo}
-          />
-        </div>
-        <div style={peopleImg} id="person-view">
-          <Image
-            fluid
-            id="image-style"
-            width={900}
+              <Image src={Trash} style={trash} />
+              <text style={{ alignSelf: "center", color: "#7A86A1" }}>
+                Delete
+              </text>
+            </div>
+
+            {/* <a className="delete">Delete</a> */}
+          </Row>
+        </Col>
+        <Col>
+          <Row
             style={{
-              zIndex: 99,
-              // alignSelf: "center",
-              // alignContent: "center",
-              // alignItems: "center",
-              // justifyContent: "center",
-            }}
-            src={personImage}
-          />
-        </div>
-      </div>
-    );
-  };
-  return (
-    <>
-      <Container fluid="md">
-        <Row>
-          <Col
-            id="right-view"
-            class="col-md-9 no-float"
-            style={{
-              height: "100vh",
-              display: "flex",
+              marginBottom: 5,
+              fontSize: 13,
+              fontWeight: 600,
             }}
           >
-            {RenderRightView()}
-          </Col>
+            <Form.Label
+              style={{
+                fontSize: 13,
+                fontWeight: 600,
+                color: "black",
+              }}
+            >
+              Venue Name{" "}
+            </Form.Label>
+          </Row>
+          <Row>
+            <Form col-sm-12 className="box">
+              <Form.Control
+                style={{
+                  marginTop: 20,
+                  height: "40px",
+                  display: "flex",
+                  borderRadius: 200,
+                  width: "calc(110%-30px)",
+                  paddingLeft: "10",
+                }}
+                type="Text"
+                placeholder="Enter your venue name here"
+              />
+            </Form>
+          </Row>
+          <Row
+            style={{
+              marginTop: 25,
+              fontSize: 13,
+              fontWeight: 600,
+            }}
+          >
+            <Form.Label
+              style={{
+                fontSize: 13,
+                fontWeight: 600,
+                color: "black",
+              }}
+            >
+              Venue Description -{" "}
+              <span style={{ opacity: 0.4 }}>Optional </span>
+            </Form.Label>
+          </Row>
+          <Row>
+            <Form col-sm-12>
+              <Form.Control
+                as="textarea"
+                rows={3}
+                placeholder="A small description about venue"
+                style={{
+                  marginTop: 20,
+                  height: "15vh",
+                  display: "flex",
+                  borderRadius: 10,
+                  width: "calc(110%-30px)",
+                }}
+              ></Form.Control>
+            </Form>
+          </Row>
+
+          {/* <Form col-sm-12 className="box">
+            <Email />
+          </Form> */}
+        </Col>
+        <Row
+          style={{
+            marginTop: 26,
+            fontSize: 13,
+            fontWeight: 600,
+          }}
+        >
+          {renderTeamSection()}
         </Row>
-      </Container>
-    </>
+      </Row>
+      <Row class="mt-5">
+        <Form.Label
+          class="mb-4"
+          style={{ fontSize: 13, fontWeight: 600, color: "black" }}
+        >
+          Attach your profile picture
+        </Form.Label>
+        <Col className="col-6">
+          {/* <div className="bg">
+              <label htmlFor="upload-button">
+                {image.preview ? (
+                  <img
+                    src={image.preview}
+                    alt="dummy"
+                    width="200"
+                    height="200"
+                  />
+                ) : (
+                  <>
+                    <span>
+                      <Image src={Logo} style={logoupload} />
+                    </span>
+                  </>
+                )}
+              </label>
+              <input
+                type="file"
+                id="upload-button"
+                style={{ display: "none" }}
+                onChange={handleChange}
+              />
+              <br />
+            <div class="text">Upload files</div>
+          </div> */}
+
+          <div
+            style={{
+              alignSelf: "center",
+              border: "1px solid rgba(235,235,235,1)",
+              flexDirection: "row",
+              alignContent: "center",
+              justifyContent: "center",
+              paddingTop: 40,
+              paddingBottom: 40,
+              borderRadius: 15,
+            }}
+          >
+            <div
+              style={{
+                alignSelf: "center",
+                display: "block",
+                textAlign: "center",
+              }}
+              onClick={() => handleChangeLogo()}
+            >
+              <input
+                type="file"
+                id="upload-button-logo"
+                style={{ display: "none" }}
+                onChange={handleChangeLogo}
+              />
+              <label htmlFor="upload-button-logo">
+                {imageLogo.preview ? (
+                  <img
+                    src={imageLogo.preview}
+                    alt="dummy"
+                    width="200"
+                    height="200"
+                  />
+                ) : (
+                  <Image src={Upload} style={upload} />
+                )}
+              </label>
+            </div>
+            <text
+              class="mt-4"
+              style={{
+                alignSelf: "center",
+                display: "block",
+                textAlign: "center",
+              }}
+            >
+              Choose files to upload
+            </text>
+          </div>
+        </Col>
+        <Col className="col-5" style={{ padding: 30 }}>
+          <Row
+            style={{
+              marginTop: 25,
+              fontSize: 13,
+              fontWeight: 600,
+            }}
+          >
+            <Form col-sm-12>
+              <Form.Label
+                style={{
+                  fontSize: 13,
+                  fontWeight: 600,
+                  color: "black",
+                }}
+              >
+                Venue Launch Date{" "}
+              </Form.Label>
+            </Form>
+          </Row>
+          <Row>
+            <Form col-sm-12>
+              <Form.Control
+                style={{
+                  color: "#7A86A1",
+                  marginTop: 10,
+                  height: "40px",
+                  display: "flex",
+                  borderRadius: 200,
+                  width: "calc(110%-30px)",
+                  paddingLeft: "10",
+                }}
+                type="Date"
+                placeholder="Enter your venue name here"
+              />
+            </Form>
+          </Row>
+
+          <Row
+            style={{
+              marginTop: 25,
+              fontSize: 13,
+              fontWeight: 600,
+            }}
+          >
+            <Form>
+              <Form.Label
+                class="mb-2"
+                style={{
+                  fontSize: 13,
+                  fontWeight: 600,
+                  color: "black",
+                }}
+              >
+                Default View
+              </Form.Label>
+            </Form>
+          </Row>
+          <Row class="mt-2">
+            <Form class="mt-2">{renderDropDown()}</Form>
+          </Row>
+        </Col>
+      </Row>
+    </div>
   );
 }
 const textView = {};
@@ -349,8 +642,43 @@ const bgImg = {
 };
 const logoupload = {
   backgroundPosition: "center",
-  backgroundSize: "cover",
+  backgroundSize: "contain",
+  backgroundRepeat: "no-repeat",
+  height: "14vh",
+};
+
+const trash = {
+  backgroundSize: "center",
+  backgroundPosition: "center",
+  height: "1.5vh",
+  alignSelf: "center",
+  marginRight: 10,
+};
+const search = {
+  backgroundSize: "center",
+  backgroundPosition: "center",
+  height: "1.5vh",
+  alignSelf: "center",
+  position: "absolute",
+  marginTop: 12,
+  marginLeft: 20,
+};
+const arrow = {
+  backgroundSize: "center",
+  backgroundPosition: "center",
+  height: "0.5vh",
+};
+
+const upload = {
+  backgroundPosition: "center",
+  backgroundSize: "contain",
   backgroundRepeat: "no-repeat",
   height: "8vh",
-  borderRadius: "100px",
+};
+
+const userImage = {
+  backgroundSize: "center",
+  backgroundPosition: "center",
+  height: "5vh",
+  alignSelf: "center",
 };

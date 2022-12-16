@@ -56,7 +56,7 @@ export default function Root() {
   const RenderRightView = () => {
     return (
       <div
-        class="main m-5"
+        class="main m-5 p-5"
         style={{
           alignSelf: "center",
         }}
@@ -67,7 +67,7 @@ export default function Root() {
         <div class="mt-5 mb-5">
           <Steps current={current} style={{}} items={items} />
         </div>
-        {current == 0 ? current == 1 ? <Venue /> : <Location /> : <Event />}
+        {current == 0 ? <Venue /> : current == 1 ? <Location /> : <Event />}
         <Row>
           <div class="mt-5 d-flex">
             <Col>
@@ -135,6 +135,8 @@ export default function Root() {
             width={800}
             style={{
               zIndex: 99,
+              minHeight: "100px",
+
               // alignSelf: "center",
               // alignContent: "center",
               // alignItems: "center",

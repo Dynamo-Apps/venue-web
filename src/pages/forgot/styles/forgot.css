@@ -169,7 +169,8 @@ a {
 
 @media (max-height: 600px) {
   #image-style {
-    display: none !important;
+    /* display: none !important; */
+    /* width !important; */
   }
 }
 

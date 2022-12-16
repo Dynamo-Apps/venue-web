@@ -89,12 +89,7 @@ export default function index() {
                 Address Line 1
               </Form.Label>
             </Col>
-            <Col
-              class="col-md-7"
-              style={{
-                marginLeft: 20,
-              }}
-            >
+            <Col class="col-md-7" style={{}}>
               <Form.Control
                 style={selectStyle}
                 type="Text"
@@ -125,12 +120,7 @@ export default function index() {
                 Address Line 2
               </Form.Label>
             </Col>
-            <Col
-              class="col-md-7"
-              style={{
-                marginLeft: 20,
-              }}
-            >
+            <Col class="col-md-7" style={{}}>
               <Form.Control
                 style={selectStyle}
                 type="Text"
@@ -161,12 +151,7 @@ export default function index() {
                 Zip code
               </Form.Label>
             </Col>
-            <Col
-              class="col-sm-7"
-              style={{
-                marginLeft: 20,
-              }}
-            >
+            <Col class="col-sm-7" style={{}}>
               <Form.Control
                 style={selectStyle}
                 type="Text"
@@ -204,12 +189,17 @@ export default function index() {
               }
             }
           >
-            <Button type="cancel" className={styles.buttonSave}>
+            <Button
+              onClick={() => {}}
+              type="cancel"
+              className={styles.buttonSave}
+            >
               Cancel
             </Button>
           </Col>
           <Col class="col">
             <Button
+              onClick={() => {}}
               type="save"
               className={styles.buttonSave}
               // style={{

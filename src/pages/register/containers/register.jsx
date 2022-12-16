@@ -28,13 +28,15 @@ import {
 import Spinner from "react-bootstrap/Spinner";
 import loader from "../../../components/loading";
 import { Nav } from "react-bootstrap";
+import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
 export default function Root() {
   const notify = () => toast("Please accept the term and agreements...");
   const notifySuccess = () => toast("Success");
   const notifyRegisterSuccess = () =>
     toast("Email Successfully created. Please verify using your email...");
-
+  const auth = getAuth();
+  const provider = new GoogleAuthProvider();
   const navigate = useNavigate();
   const [swt, setSwt] = useState("");
   const [role, setRole] = useState("");
@@ -231,6 +233,7 @@ export default function Root() {
 
           <Col id="social-button-col-google">
             <Button
+            onClick={()=>googleLogin()}
               id="social-button-button-google"
               variant="primary"
               size="lg"
@@ -654,6 +657,36 @@ export default function Root() {
       </div>
     );
   };
+
+  const googleLogin = () => {
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        // The signed-in user info.
+
+        const user = result.user;
+
+        toast("Success, signing in as " + user.displayName);
+
+        navigate("/home");
+
+        // ...
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error);
+
+        console.log("googleLogin", error);
+        // ...
+      });
+  };
   const renderLeftView = () => {
     return (
       // <div style={{ height: "100vh", width: "47%" }}>
@@ -674,6 +707,7 @@ export default function Root() {
             width={900}
             style={{
               zIndex: 99,
+
               // alignSelf: "center",
               // alignContent: "center",
               // alignItems: "center",
