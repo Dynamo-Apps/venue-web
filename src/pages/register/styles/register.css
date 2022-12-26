@@ -56,7 +56,9 @@ a {
   border-radius: 200px !important;
   padding-left: 20px !important;
   padding-right: 20px !important;
-
+}
+#dropdown-new {
+  border: 0px solid rgb(235, 235, 235) !important;
 }
 
 @media (max-width: 1398px) {

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useEffect } from "react";
 import PropTypes from "prop-types";
 import gradientImage from "../../../assets/images/gradient-image.png";
 import logo from "../../../assets/images/logo.png";
@@ -13,16 +13,25 @@ import Pagination from "react-bootstrap/Pagination";
 import { message, Steps } from "antd";
 import "../styles/additional-registration.css";
 import Location from "../components/location.jsx";
-import Venue from "../components/venue.jsx";
+import Venue from "../components/venue";
 import Event from "../components/events.jsx";
 
 import { useNavigate } from "react-router-dom";
 
 import styles from "../styles/additional-registration.module.css";
 import { useState } from "react";
+import loader from "../../../components/loading";
 
 export default function Root() {
   const navigate = useNavigate();
+
+  const [loading, setLoading] = useState(false);
+  const [role, setRole] = useState(false);
+
+  useEffect(() => {
+    setRole(localStorage.getItem("role"));
+    console.log(role);
+  }, []);
 
   const steps = [
     {
@@ -40,7 +49,11 @@ export default function Root() {
   ];
   const [current, setCurrent] = useState(0);
   const finish = () => {
-    navigate("/");
+    setLoading(true);
+    setTimeout(() => {
+      navigate("/home");
+      setLoading(false);
+    }, 3000);
   };
   const next = () => {
     setCurrent(current + 1);
@@ -62,12 +75,22 @@ export default function Root() {
         }}
       >
         <h1 className={styles.letUsText}>
-          Let us Connect your venue to the world!
+          {role === "Venue Manager"
+            ? "Let us Connect your venue to the world!"
+            : role === "Fan"
+            ? "Let us help you find the right event for you!"
+            : "Let us Connect get you started on the first event with us!"}
         </h1>
         <div class="mt-5 mb-5">
-          <Steps current={current} style={{}} items={items} />
+          <Steps current={current} style={{ padding: "25px" }} items={items} />
         </div>
-        {current == 0 ? <Venue /> : current == 1 ? <Location /> : <Event />}
+        {current == 0 ? (
+          <Venue role={role} />
+        ) : current == 1 ? (
+          <Location role={role} />
+        ) : (
+          <Event role={role} />
+        )}
         <Row>
           <div class="mt-5 d-flex">
             <Col>
@@ -98,6 +121,7 @@ export default function Root() {
                 </Button>
               ) : (
                 <Button
+                  disabled={loading}
                   type="save"
                   onClick={() => finish()}
                   className={styles.buttonSave}
@@ -107,7 +131,19 @@ export default function Root() {
                   //   height: 40,
                   // }}
                 >
-                  Finish
+                  {loading ? (
+                    loader()
+                  ) : (
+                    <text
+                      style={{
+                        fontSize: 16,
+                        color: "white",
+                        fontWeight: "700",
+                      }}
+                    >
+                      Finish
+                    </text>
+                  )}
                 </Button>
               )}
             </Col>
@@ -136,6 +172,7 @@ export default function Root() {
             style={{
               zIndex: 99,
               minHeight: "100px",
+              objectFit: "contain",
 
               // alignSelf: "center",
               // alignContent: "center",

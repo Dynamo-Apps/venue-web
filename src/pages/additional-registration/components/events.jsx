@@ -15,7 +15,7 @@ import Select, { components, ControlProps } from "react-select";
 import Checkmark from "../../../../src/assets/images/checkmark.png";
 import NonCheckmark from "../../../../src/assets/images/not-checkmark.png";
 
-export default function Root() {
+export default function Root(props) {
   const [selectedOptions, setSelectedOptions] = useState();
   const [userinfo, setUserInfo] = useState({
     languages: [],
@@ -72,14 +72,36 @@ export default function Root() {
   }
 
   const renderBoxes = (item, indexMain) => {
-    // return item.selected ? (
-    return indexMain < 3 ? (
-      <Col onClick={() => {}} class="m-2 mb-3">
+    return !item.selected ? (
+      // return indexMain < 3 ? (
+      <Col
+        onClick={() => {
+          var stateArray = [];
+          for (let index = 0; index < selectedBoxes.length; index++) {
+            const element = selectedBoxes[index];
+
+            if (index == indexMain) {
+              console.log("====================================");
+              console.log(element.selected);
+              console.log("====================================");
+              let newObject = {
+                name: element.name,
+                selected: true,
+              };
+              stateArray.push(newObject);
+            } else {
+              stateArray.push(element);
+            }
+            setSelectedBoxes(stateArray);
+          }
+        }}
+        class="m-2 mb-3"
+      >
         <div
           style={{
             border: "1px solid #6149CD",
-            height: 66,
-            width: 130,
+            height: 55,
+            width: 100,
             marginTop: 20,
             display: "flex",
             borderRadius: 20,
@@ -105,6 +127,7 @@ export default function Root() {
     ) : (
       <Col
         onClick={() => {
+          var stateArray = [];
           for (let index = 0; index < selectedBoxes.length; index++) {
             const element = selectedBoxes[index];
 
@@ -112,9 +135,15 @@ export default function Root() {
               console.log("====================================");
               console.log(element.selected);
               console.log("====================================");
+              let newObject = {
+                name: element.name,
+                selected: false,
+              };
+              stateArray.push(newObject);
+            } else {
+              stateArray.push(element);
             }
-
-            // setSelectedBoxes(Object.assign(element));
+            setSelectedBoxes(stateArray);
           }
 
           // let editedBox = { name: item.name, selected: true };
@@ -127,8 +156,8 @@ export default function Root() {
       >
         <div
           style={{
-            height: 66,
-            width: 130,
+            height: 55,
+            width: 100,
             marginTop: 20,
 
             backgroundColor: " #6149CD",
@@ -161,7 +190,10 @@ export default function Root() {
         <Row>
           <div className="container-fluid">
             <Form.Label class="mb-3" style={{ fontSize: 14, color: "black" }}>
-              Select the type of event you would like to host{" "}
+
+              {props.role === "Venue Manager"
+                ? "Select the type of event you would like to host"
+                : "Select the type of event you would like to perform"}
             </Form.Label>
             <Row class="d-inline-flex" sm={5}>
               {selectedBoxes.map((item, index) => renderBoxes(item, index))}
@@ -181,7 +213,10 @@ export default function Root() {
                 color: "black",
               }}
             >
-              Add Genres that you would host
+             
+              {props.role === "Venue Manager"
+                ? "Add Genres that you would host"
+                : " Add Genres that you would perform"}
             </Form.Label>
             <div
               className="dropdown-container"

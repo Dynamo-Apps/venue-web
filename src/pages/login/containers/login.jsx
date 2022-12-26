@@ -503,7 +503,11 @@ export default function Root() {
           <Image
             id="logo-image"
             width={100}
-            style={{ alignSelf: "center", position: "absolute", top: 50 }}
+            style={{
+              alignSelf: "center",
+              position: "absolute",
+              top: 50,
+            }}
             preview={false}
             src={logo}
           />
@@ -515,6 +519,7 @@ export default function Root() {
             style={{
               zIndex: 99,
               minHeight: "100px",
+              objectFit: "contain", 
 
               // alignSelf: "center",
               // alignContent: "center",

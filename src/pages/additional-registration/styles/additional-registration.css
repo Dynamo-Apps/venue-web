@@ -50,3 +50,7 @@ input::-webkit-datetime-edit-fields-wrapper {
 .css-qbdosj-Input {
   padding-left: 120px !important;
 }
+
+.ant-steps-item-title {
+  padding-inline-end: 30px !important;
+}

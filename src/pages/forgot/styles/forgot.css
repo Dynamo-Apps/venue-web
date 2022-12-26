@@ -53,6 +53,7 @@ a {
     margin-left: 0 !important;
     flex: 1 !important;
     margin-top: 25px !important;
+    
   }
 
   #input-password {
@@ -70,7 +71,9 @@ a {
     width: min-content !important;
   }
   #image-style {
-    width: 1000px !important;
+    /* width: 1000px !important; */
+    width: 700px !important;
+
   }
 
   #signIn-Div {

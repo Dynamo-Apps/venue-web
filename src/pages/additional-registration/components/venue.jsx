@@ -23,7 +23,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import styles from "../styles/additional-registration.module.css";
 
 import { useEffect } from "react";
-export default function Root() {
+export default function Root(props) {
   const [image, setImage] = useState({ preview: "", raw: "" });
   const [imageLogo, setImageLogo] = useState({ preview: "", raw: "" });
   const [view, setView] = useState("Timeline");
@@ -63,29 +63,39 @@ export default function Root() {
       <div>
         <div>
           <Row style={{ flexDirection: "row", flex: 1 }}>
-            <text style={{ flex: 0.3, alignSelf: "center" }}>Invite Team</text>
-            <div style={{ flex: 1, flexDirection: "row" }}>
-              <Image src={Search} style={search} />
+            <Col sm={3}>
+              <text
+                style={{ flex: 0.3, alignSelf: "center", marginBottom: 10 }}
+              >
+                Invite Team
+              </text>
+            </Col>
+            <Col sm={6}>
+              <div style={{ flex: 1, flexDirection: "row", marginBottom: 10 }}>
+                <Image src={Search} style={search} />
 
-              <Form.Control
-                style={{}}
-                placeholder="Search name or email"
-                className={styles.teamSearch}
-              ></Form.Control>
-            </div>
+                <Form.Control
+                  style={{}}
+                  placeholder="Search name or email"
+                  className={styles.teamSearch}
+                ></Form.Control>
+              </div>
+            </Col>
 
-            <div
-              style={{
-                flex: 0.3,
-                display: "flex",
-                alignItems: "flex-end",
-                justifyContent: "flex-end",
-              }}
-            >
-              <Button type="cancel" className={styles.buttonSave}>
-                Invite
-              </Button>
-            </div>
+            <Col sm={3}>
+              <div
+                style={{
+                  flex: 0.3,
+                  display: "flex",
+                  alignItems: "flex-end",
+                  justifyContent: "flex-end",
+                }}
+              >
+                <Button type="cancel" className={styles.buttonSave}>
+                  Invite
+                </Button>
+              </div>
+            </Col>
           </Row>
         </div>
 
@@ -287,119 +297,89 @@ export default function Root() {
   return (
     <div class="main">
       <Row className="col-md-12">
-        <Col
-          style={{
-            alignItems: "center",
-          }}
-        >
-          <Row
+        {props.role == "Fan" ? null : (
+          <Col
+            sm={3}
             style={{
-              marginBottom: 9,
+              alignItems: "center",
             }}
           >
-            <Form.Label
+            <Row
               style={{
-                fontSize: 13,
-                fontWeight: 600,
+                marginBottom: 9,
               }}
             >
-              Venue Logo
-            </Form.Label>
-          </Row>
-          <Row>
-            <div>
-              <label htmlFor="upload-button">
-                {image.preview ? (
-                  <img
-                    style={{ backgroundSize: "contain" }}
-                    src={image.preview}
-                    alt="dummy"
-                    width="120"
-                    height="120"
-                  />
-                ) : (
-                  <>
-                    <span>
-                      <Image src={Logo} style={logoupload} />
-                    </span>
-                  </>
-                )}
-              </label>
-              <input
-                type="file"
-                id="upload-button"
-                style={{ display: "none" }}
-                onChange={handleChange}
-              />
-            </div>
-          </Row>
-          <Row
-            style={
-              {
-                // backgroundColor:'red'
-                // marginTop: 10,
-                // marginRight: 80,
+              <Form.Label
+                style={{
+                  fontSize: 13,
+                  fontWeight: 600,
+                }}
+              >
+                {props.role === "Venue Manager" ? "Venue Logo" : "Your Logo"}
+              </Form.Label>
+            </Row>
+            <Row>
+              <div>
+                <label htmlFor="upload-button">
+                  {image.preview ? (
+                    <img
+                      style={{ backgroundSize: "contain" }}
+                      src={image.preview}
+                      alt="dummy"
+                      width="120"
+                      height="120"
+                    />
+                  ) : (
+                    <>
+                      <span>
+                        <Image src={Logo} style={logoupload} />
+                      </span>
+                    </>
+                  )}
+                </label>
+                <input
+                  type="file"
+                  id="upload-button"
+                  style={{ display: "none" }}
+                  onChange={handleChange}
+                />
+              </div>
+            </Row>
+            <Row
+              style={
+                {
+                  // backgroundColor:'red'
+                  // marginTop: 10,
+                  // marginRight: 80,
+                }
               }
-            }
-          >
-            <div
-              onClick={() => setImage({ preview: "", raw: "" })}
-              class="d-flex justify-content-center"
-              style={{
-                height: "3rem",
-                width: "8rem",
-
-                borderRadius: 200,
-                // backgroundColor: "rgba( 245, 244, 245, 100%)",
-                border: "1px solid rgba(235,235,235,1)",
-              }}
             >
-              <Image src={Trash} style={trash} />
-              <text style={{ alignSelf: "center", color: "#7A86A1" }}>
-                Delete
-              </text>
-            </div>
-
-            {/* <a className="delete">Delete</a> */}
-          </Row>
-        </Col>
-        <Col>
-          <Row
-            style={{
-              marginBottom: 5,
-              fontSize: 13,
-              fontWeight: 600,
-            }}
-          >
-            <Form.Label
-              style={{
-                fontSize: 13,
-                fontWeight: 600,
-                color: "black",
-              }}
-            >
-              Venue Name{" "}
-            </Form.Label>
-          </Row>
-          <Row>
-            <Form col-sm-12 className="box">
-              <Form.Control
+              <div
+                onClick={() => setImage({ preview: "", raw: "" })}
+                class="d-flex justify-content-center"
                 style={{
-                  marginTop: 20,
-                  height: "40px",
-                  display: "flex",
+                  height: "3rem",
+                  width: "8rem",
+
                   borderRadius: 200,
-                  width: "calc(110%-30px)",
-                  paddingLeft: "10",
+                  // backgroundColor: "rgba( 245, 244, 245, 100%)",
+                  border: "1px solid rgba(235,235,235,1)",
                 }}
-                type="Text"
-                placeholder="Enter your venue name here"
-              />
-            </Form>
-          </Row>
+              >
+                <Image src={Trash} style={trash} />
+                <text style={{ alignSelf: "center", color: "#7A86A1" }}>
+                  Delete
+                </text>
+              </div>
+
+              {/* <a className="delete">Delete</a> */}
+            </Row>
+          </Col>
+        )}
+        {props.role == "Fan" ? (
           <Row
             style={{
-              marginTop: 25,
+              marginTop: 0,
               fontSize: 13,
               fontWeight: 600,
             }}
@@ -411,49 +391,123 @@ export default function Root() {
                 color: "black",
               }}
             >
-              Venue Description -{" "}
-              <span style={{ opacity: 0.4 }}>Optional </span>
+              About you
+              <span style={{ opacity: 0.4 }}> Optional </span>
             </Form.Label>
+            <Form.Control
+              as="textarea"
+              rows={3}
+              placeholder="A small description"
+              style={{
+                marginTop: 20,
+                height: "15vh",
+                display: "flex",
+                borderRadius: 10,
+                width: "calc(110%-30px)",
+              }}
+            ></Form.Control>
           </Row>
-          <Row>
-            <Form col-sm-12>
-              <Form.Control
-                as="textarea"
-                rows={3}
-                placeholder="A small description about venue"
+        ) : (
+          <Col>
+            <Row
+              style={{
+                marginBottom: 5,
+                fontSize: 13,
+                fontWeight: 600,
+              }}
+            >
+              <Form.Label
+                class="mt-4"
                 style={{
-                  marginTop: 20,
-                  height: "15vh",
-                  display: "flex",
-                  borderRadius: 10,
-                  width: "calc(110%-30px)",
+                  fontSize: 13,
+                  fontWeight: 600,
+                  color: "black",
                 }}
-              ></Form.Control>
-            </Form>
-          </Row>
+              >
+                {props.role === "Venue Manager"
+                  ? "Venue Name"
+                  : "You/ Your group name"}
+              </Form.Label>
+            </Row>
+            <Row>
+              <Form col-sm-12 className="box">
+                <Form.Control
+                  style={{
+                    marginTop: 20,
+                    height: "40px",
+                    display: "flex",
+                    borderRadius: 200,
+                    width: "calc(110%-30px)",
+                    paddingLeft: "10",
+                  }}
+                  type="Text"
+                  placeholder="Enter your name here"
+                />
+              </Form>
+            </Row>
+            <Row
+              style={{
+                marginTop: 25,
+                fontSize: 13,
+                fontWeight: 600,
+              }}
+            >
+              <Form.Label
+                style={{
+                  fontSize: 13,
+                  fontWeight: 600,
+                  color: "black",
+                }}
+              >
+                {props.role === "Venue Manager"
+                  ? "Venue Description"
+                  : "Your Description"}
+                <span style={{ opacity: 0.4 }}> Optional </span>
+              </Form.Label>
+            </Row>
+            <Row>
+              <Form col-sm-12>
+                <Form.Control
+                  as="textarea"
+                  rows={3}
+                  placeholder="A small description"
+                  style={{
+                    marginTop: 20,
+                    height: "15vh",
+                    display: "flex",
+                    borderRadius: 10,
+                    width: "calc(110%-30px)",
+                  }}
+                ></Form.Control>
+              </Form>
+            </Row>
 
-          {/* <Form col-sm-12 className="box">
+            {/* <Form col-sm-12 className="box">
             <Email />
           </Form> */}
-        </Col>
-        <Row
-          style={{
-            marginTop: 26,
-            fontSize: 13,
-            fontWeight: 600,
-          }}
-        >
-          {renderTeamSection()}
-        </Row>
+          </Col>
+        )}
+
+        {props.role == "Fan" ? null : (
+          <Row
+            style={{
+              marginTop: 26,
+              fontSize: 13,
+              fontWeight: 600,
+            }}
+          >
+            {renderTeamSection()}
+          </Row>
+        )}
       </Row>
       <Row class="mt-5">
         <Form.Label
-          class="mb-4"
+          class="mb-4 mt-4"
           style={{ fontSize: 13, fontWeight: 600, color: "black" }}
         >
           Attach your profile picture
         </Form.Label>
-        <Col className="col-6">
+        <Col sm={6}>
           {/* <div className="bg">
               <label htmlFor="upload-button">
                 {image.preview ? (
@@ -520,20 +574,41 @@ export default function Root() {
                 )}
               </label>
             </div>
-            <text
-              class="mt-4"
-              style={{
-                alignSelf: "center",
-                display: "block",
-                textAlign: "center",
-              }}
-            >
-              Choose files to upload
-            </text>
+            {imageLogo.preview ? (
+              <div
+                onClick={() => setImageLogo({ preview: "", raw: "" })}
+                class="d-flex justify-content-center ms-5 mt-3"
+                style={{
+                  height: "3rem",
+                  width: "8rem",
+                  alignSelf: "center",
+
+                  borderRadius: 200,
+                  // backgroundColor: "rgba( 245, 244, 245, 100%)",
+                  border: "1px solid rgba(235,235,235,1)",
+                }}
+              >
+                <Image src={Trash} style={trash} />
+                <text style={{ alignSelf: "center", color: "#7A86A1" }}>
+                  Delete
+                </text>
+              </div>
+            ) : (
+              <text
+                class="mt-4"
+                style={{
+                  alignSelf: "center",
+                  display: "block",
+                  textAlign: "center",
+                }}
+              >
+                Choose files to upload
+              </text>
+            )}
           </div>
         </Col>
-        <Col className="col-5" style={{ padding: 30 }}>
-          <Row
+        <Col sm={6} style={{ padding: 30 }}>
+          {/* <Row
             style={{
               marginTop: 25,
               fontSize: 13,
@@ -548,7 +623,11 @@ export default function Root() {
                   color: "black",
                 }}
               >
-                Venue Launch Date{" "}
+                {props.role === "Venue Manager"
+                  ? "Venue Launch Date"
+                  : props.role === "Fan"
+                  ? "Your Date of Birth"
+                  : "Your Launch Date"}
               </Form.Label>
             </Form>
           </Row>
@@ -592,7 +671,7 @@ export default function Root() {
           </Row>
           <Row class="mt-2">
             <Form class="mt-2">{renderDropDown()}</Form>
-          </Row>
+          </Row> */}
         </Col>
       </Row>
     </div>
@@ -677,6 +756,7 @@ const upload = {
 };
 
 const userImage = {
+  marginRight: 10,
   backgroundSize: "center",
   backgroundPosition: "center",
   height: "5vh",

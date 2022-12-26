@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Button, DatePicker, Space, version } from "antd";
-import { createBrowserRouter, RouterProvider, Route } from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Route,
+  createHashRouter,
+} from "react-router-dom";
 import Login from "../pages/login/containers/login.jsx";
 import Register from "../pages/register/containers/register.jsx";
 import ConfirmEmail from "../pages/confirm-email/containers/confirm-email.jsx";
@@ -15,10 +20,10 @@ import ErrorPage from "../components/error-page";
 function Routes() {
   useEffect(() => {});
 
-  const router = createBrowserRouter([
+  const router = createHashRouter([
     {
       path: "/",
-      element: <AdditionalRegistration />,
+      element: <Login />,
       errorElement: <ErrorPage />,
       // children: [
       //   {

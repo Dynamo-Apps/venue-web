@@ -51,6 +51,7 @@ export default function index() {
             <Col class="col-md-7">
               <Form.Select id="delect" style={selectStyle}>
                 <option>Select Country</option>
+                <option>Japan</option>
                 <option>USA</option>
                 <option>UK</option>
               </Form.Select>
@@ -189,16 +190,16 @@ export default function index() {
               }
             }
           >
-            <Button
+            {/* <Button
               onClick={() => {}}
               type="cancel"
               className={styles.buttonSave}
             >
               Cancel
-            </Button>
+            </Button> */}
           </Col>
           <Col class="col">
-            <Button
+            {/* <Button
               onClick={() => {}}
               type="save"
               className={styles.buttonSave}
@@ -209,7 +210,7 @@ export default function index() {
               // }}
             >
               Save
-            </Button>
+            </Button> */}
           </Col>
         </Row>
       </Form>

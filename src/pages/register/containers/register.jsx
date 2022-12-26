@@ -19,6 +19,8 @@ import { useState } from "react";
 import * as yup from "yup";
 import { Formik } from "formik";
 import Dropdown from "react-bootstrap/Dropdown";
+import styles from "../styles/register.module.css";
+
 import {
   getAuth,
   signInWithEmailAndPassword,
@@ -75,6 +77,7 @@ export default function Root() {
             sendEmailVerification(response.user.auth.currentUser)
               .then(() => {
                 // notifyRegisterSuccess();
+                localStorage.setItem("role", role);
                 navigate("/");
               })
               .catch((err) => alert(err.message))
@@ -96,7 +99,15 @@ export default function Root() {
   };
   const renderDropDown = () => {
     return (
-      <Dropdown style={{}}>
+      <Dropdown
+        class="mt-4"
+        className={styles.dropdown}
+        style={{
+          marginTop: 30,
+          border: "0px solid #ced4da",
+        }}
+        id="dropdown-new"
+      >
         <Form.Label
           style={{
             marginRight: "2rem",
@@ -112,21 +123,25 @@ export default function Root() {
           variant="primary-outline"
           size="lg"
           id="dropdown-basic-button"
+          style={{
+            border: "0px solid #ced4da ",
+          }}
         >
           {role}
         </Dropdown.Toggle>
 
-        <Dropdown.Menu>
-          <Dropdown.Item onClick={(val) => setRole("Fan")} href="#/action-1">
+        <Dropdown.Menu
+          style={{
+            border: "0px solid #ced4da ",
+          }}
+        >
+          <Dropdown.Item as={Link} onClick={(val) => setRole("Fan")}>
             <Form.Label>Fan</Form.Label>
           </Dropdown.Item>
-          <Dropdown.Item onClick={(val) => setRole("Artist")} href="#/action-2">
+          <Dropdown.Item as={Link} onClick={(val) => setRole("Artist")}>
             Artist
           </Dropdown.Item>
-          <Dropdown.Item
-            onClick={(val) => setRole("Venue Manager")}
-            href="#/action-3"
-          >
+          <Dropdown.Item as={Link} onClick={(val) => setRole("Venue Manager")}>
             Venue Manager
           </Dropdown.Item>
         </Dropdown.Menu>
@@ -233,7 +248,7 @@ export default function Root() {
 
           <Col id="social-button-col-google">
             <Button
-            onClick={()=>googleLogin()}
+              onClick={() => googleLogin()}
               id="social-button-button-google"
               variant="primary"
               size="lg"
@@ -670,7 +685,7 @@ export default function Root() {
 
         toast("Success, signing in as " + user.displayName);
 
-        navigate("/home");
+        navigate("/additional-registration");
 
         // ...
       })
@@ -707,6 +722,9 @@ export default function Root() {
             width={900}
             style={{
               zIndex: 99,
+              minHeight: "100px",
+
+              objectFit: "contain",
 
               // alignSelf: "center",
               // alignContent: "center",

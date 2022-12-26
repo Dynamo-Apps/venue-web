@@ -248,6 +248,8 @@ export default function Root() {
             style={{
               zIndex: 99,
               minHeight: "100px", 
+              objectFit: "contain", 
+
 
               // alignSelf: "center",
               // alignContent: "center",
