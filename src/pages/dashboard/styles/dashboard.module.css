@@ -1,0 +1,6 @@
+.ant-tabs-ink-bar {
+  background: #6149cd !important;
+  position: absolute !important;
+  pointer-events: none !important;
+  height: 5px !important;
+}

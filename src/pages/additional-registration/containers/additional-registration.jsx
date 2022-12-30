@@ -14,7 +14,7 @@ import { message, Steps } from "antd";
 import "../styles/additional-registration.css";
 import Location from "../components/location.jsx";
 import Venue from "../components/venue";
-import Event from "../components/events.jsx";
+import Event from "../components/events-registration.jsx";
 
 import { useNavigate } from "react-router-dom";
 

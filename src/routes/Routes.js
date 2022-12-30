@@ -23,7 +23,7 @@ function Routes() {
   const router = createHashRouter([
     {
       path: "/",
-      element: <Login />,
+      element: <Home />,
       errorElement: <ErrorPage />,
       // children: [
       //   {
