@@ -1,6 +1,6 @@
 # Misshouni
 
-## How to start tbis project?
+## How to start this project?
 
 You can follow [this guide](https://reactjs.org/docs/create-a-new-react-app.html) to setup your environment.
 
