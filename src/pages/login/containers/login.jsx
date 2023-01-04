@@ -124,6 +124,8 @@ export default function Root() {
           toast("No email found...");
         } else if (error.code === "auth/user-not-found") {
           toast("Wrong password...");
+        } else if (error.code === "auth/wrong-password") {
+          toast("Wrong password...");
         }
         console.log("errorMessage", errorMessage);
       })
@@ -519,7 +521,7 @@ export default function Root() {
             style={{
               zIndex: 99,
               minHeight: "100px",
-              objectFit: "contain", 
+              objectFit: "contain",
 
               // alignSelf: "center",
               // alignContent: "center",

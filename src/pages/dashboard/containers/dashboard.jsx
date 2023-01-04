@@ -4,6 +4,7 @@ import {
   Card,
   Col,
   Container,
+  Dropdown,
   Form,
   FormText,
   Image,
@@ -12,6 +13,7 @@ import {
 } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import styles from "../styles/dashboard.module.css";
+import GoogleMapReact from "google-map-react";
 
 import logo from "../../../assets/images/logo.png";
 import CoverPhoto from "../../../assets/images/cover-photo.png";
@@ -47,18 +49,56 @@ import AboutJoined from "../../../assets/images/aboutus-joined.png";
 import InformationImage from "../../../assets/images/information-image.png";
 
 import MoreIcon from "../../../assets/images/more-icon.png";
+import map from "../../../assets/images/Map.png";
 
 import Media1 from "../../../assets/images/media1.png";
 
 import Media2 from "../../../assets/images/media2.png";
 
 import SearchGrayIcon from "../../../assets/images/search-gray-icon.png";
+import Achievement1 from "../../../assets/images/achievement1.png";
+import Achievement2 from "../../../assets/images/achievement2.png";
 
 import { Input, Progress, Tabs } from "antd";
 import { useState } from "react";
+import { GOOGLE_MAP_API_KEY } from "../../../helpers/constants";
+import Map from "../../../components/map";
+import { useEffect } from "react";
 
 export default function Root() {
+  const [view, setView] = useState("Latest");
+
   const navigate = useNavigate();
+
+  const defaultProps = {
+    center: {
+      lat: 34.052235,
+      lng: -118.243683,
+    },
+    disableDefaultUI: true,
+
+    zoom: 16,
+  };
+
+  const AnyReactComponent = ({ text }) => (
+    <div
+      style={{
+        backgroundColor: "white",
+        width: 70,
+        height: 70,
+        display:'flex',
+        borderRadius: 70,
+        // padding: 5,
+        border: "1px solid #AD6BE0",
+        boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.8)",
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "row",
+      }}
+    >
+      {text}
+    </div>
+  );
 
   const [onYourMindText, setOnYourMindText] = useState("");
 
@@ -137,6 +177,60 @@ export default function Root() {
       picture: "https://randomuser.me/api/portraits/men/33.jpg",
     },
   ]);
+
+  const [images, setImages] = useState([
+    {
+      name: "Image 1",
+      src: "//placeimg.com/600/400?text=1",
+      desc: "This describes this image..",
+    },
+    {
+      name: "Image 2",
+      src: "//placeimg.com/600/400?text=2",
+      desc: "This describes this image 2..",
+    },
+    {
+      name: "Image 3",
+      src: "//placeimg.com/600/400/any",
+      desc: "This describes this image 3 ..",
+    },
+    {
+      name: "Image 4",
+      src: "//placeimg.com/600/400?text=4",
+      desc: "This describes this image 4..",
+    },
+    {
+      name: "Image 5",
+      src: "//placeimg.com/600/400?text=5",
+      desc: "This describes this image 5..",
+    },
+    {
+      name: "Image 6",
+      src: "//placeimg.com/600/400?text=6",
+      desc: "This describes this image 6..",
+    },
+    {
+      name: "Image 7",
+      src: "//placeimg.com/600/400?text=7",
+      desc: "This describes this image 7..",
+    },
+    {
+      name: "Image 8",
+      src: "//placeimg.com/600/400?text=8",
+      desc: "This describes this image 8..",
+    },
+    {
+      name: "Image 9",
+      src: "//placeimg.com/600/400?text=9",
+      desc: "This describes this image 9..",
+    },
+  ]);
+
+  useEffect(() => {
+    // setCurrentSelection
+  }, []);
+
+  const [currentSelection, setCurrentSelection] = useState({});
 
   const renderOnlineFriends = (person, idx) => {
     return (
@@ -230,8 +324,9 @@ export default function Root() {
 
         <Col
           style={{
-            flex: 0.7,
+            flex: 0.8,
             display: "flex",
+
             justifyContent: "flex-start",
             alignItems: "center",
           }}
@@ -244,14 +339,14 @@ export default function Root() {
               marginLeft: 20,
               fontSize: 20,
               fontWeight: 300,
-              width: "-webkit-fill-available",
+              width: "inherit",
             }}
             type="textarea"
             placeholder="What's on your mind?"
           />
         </Col>
 
-        <Col style={{ flex: 0.2 }}>
+        <Col style={{ flex: 0.1 }}>
           <SendOutlined
             onClick={() => setOnYourMindText("")}
             style={{
@@ -282,7 +377,7 @@ export default function Root() {
         style={{
           marginTop: 30,
           borderRadius: 20,
-
+          marginBottom: 100,
           backgroundColor: "#FFF",
           boxShadow: "0 10px 30px 0 rgba(209,213,223,0.5)",
         }}
@@ -382,13 +477,19 @@ export default function Root() {
           style={{
             display: "flex",
             marginTop: 30,
+            borderTop: "2px solid #f3f3f3",
             paddingLeft: 70,
             paddingRight: 70,
           }}
         >
           <Row
             class="flex-row"
-            style={{ display: "flex", justifyContent: "space-between" }}
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              flexDirection: "row",
+              marginTop: 30,
+            }}
           >
             <Form.Label
               style={{
@@ -484,13 +585,620 @@ export default function Root() {
               </Form.Label>
             </Col>
           </Row>
+
+          <Row>
+            {/* <div style={{ height: "100vh", width: "100%" }}></div> */}
+
+            {/* <Image
+              width={20}
+              style={{ marginRight: 18, paddingBottom: 5 }}
+              src={map}
+            /> */}
+
+            <div style={{ height: "30vh", width: "100%" }}>
+              <GoogleMapReact
+                draggable={false}
+                zoom={false}
+                bootstrapURLKeys={{ key: GOOGLE_MAP_API_KEY }}
+                defaultCenter={defaultProps.center}
+                defaultZoom={defaultProps.zoom}
+              >
+                <AnyReactComponent
+                  lat={34.052235}
+                  lng={-118.243683}
+                  text="My Location"
+                />
+              </GoogleMapReact>
+            </div>
+          </Row>
+        </Row>
+
+        <Row
+          class="flex-row"
+          style={{
+            display: "flex",
+            marginTop: 30,
+            borderTop: "2px solid #f3f3f3",
+
+            paddingLeft: 70,
+            paddingRight: 70,
+          }}
+        >
+          <Row
+            class="flex-row"
+            style={{
+              display: "flex",
+              marginTop: 15,
+              justifyContent: "space-between",
+              flexDirection: "row",
+            }}
+          >
+            <Form.Label
+              style={{
+                textAlign: "left",
+                fontSize: 30,
+                color: "#000",
+              }}
+            >
+              Performer List
+            </Form.Label>
+
+            <Form.Label
+              style={{
+                textAlign: "left",
+                fontSize: 16,
+                fontWeight: "300",
+                color: "#92929D",
+              }}
+            >
+              + Invite Performers
+            </Form.Label>
+          </Row>
+
+          <Row
+            class="display-flex flex-row"
+            style={{ flex: "display", marginTop: 30, marginBottom: 30 }}
+          >
+            <FlatList
+              list={onlineFriend}
+              renderItem={(item) => (
+                <Col sm={2} style={{ marginBottom: 20 }}>
+                  <Image
+                    id="logo-image"
+                    width={60}
+                    height={60}
+                    roundedCircle
+                    style={{ marginBottom: 5 }}
+                    preview={false}
+                    src={item.picture}
+                  />
+
+                  <div style={{}}>
+                    <Form.Label
+                      style={{
+                        fontSize: 14,
+                        color: "#858997",
+
+                        fontWeight: 400,
+                      }}
+                    >
+                      {item.name}
+                    </Form.Label>
+                  </div>
+                </Col>
+              )}
+              renderWhenEmpty={() => <div>List is empty!</div>}
+              // sortBy={["firstName", { key: "lastName", descending: true }]}
+              // groupBy={(person) =>
+              //   person.info.age > 18 ? "Over 18" : "Under 18"
+              // }
+            />
+          </Row>
+        </Row>
+
+        <Row
+          class="flex-row"
+          style={{
+            display: "flex",
+            marginTop: 30,
+            borderTop: "2px solid #f3f3f3",
+          }}
+        >
+          <Row
+            class="flex-row"
+            style={{
+              display: "flex",
+              marginTop: 15,
+              justifyContent: "space-between",
+              flexDirection: "row",
+            }}
+          >
+            <Form.Label
+              style={{
+                textAlign: "left",
+                fontSize: 30,
+                paddingLeft: 80,
+                paddingRight: 80,
+                color: "#000",
+              }}
+            >
+              Our Achievements
+            </Form.Label>
+          </Row>
+
+          <Row
+            class="display-flex flex-row"
+            style={{ flex: "display", marginTop: 30, marginBottom: 30 }}
+          >
+            <Row
+              style={{
+                width: "fit-content",
+
+                display: "flex",
+                flexWrap: "nowrap",
+                // flexDirection: "row",
+                // zIndex: -1,
+              }}
+            >
+              <Col>
+                <Image
+                  width={"100%"}
+                  style={{ flex: 1 / 2, paddingRight: 0 }}
+                  src={Achievement1}
+                />
+              </Col>
+              <Col>
+                <Image
+                  width={"100%"}
+                  style={{ flex: 1 / 2, paddingLeft: 0 }}
+                  src={Achievement2}
+                />
+              </Col>
+            </Row>
+
+            <Row style={{ position: "absolute" }}>
+              <Col
+                // sm={2}
+                style={{
+                  display: "grid",
+                  flex: 1 / 8,
+                  alignItems: "flex-start",
+                  justifyItems: "baseline",
+                  backgroundColor: "white",
+                  border: "2px solid #f3f3f3",
+                  padding: 24,
+                  paddingBottom: 18,
+                  paddingTop: 18,
+                  position: "relative",
+                  top: 340,
+                }}
+              >
+                <Image width={40} style={{}} src={ProfilePhoto} />
+                <Row>
+                  <Form.Label
+                    style={{ fontSize: 33, color: "#222", marginTop: 20 }}
+                  >
+                    1148h
+                  </Form.Label>
+                </Row>
+                <Row>
+                  <Form.Label
+                    style={{
+                      fontSize: 10,
+                      color: "#92929D",
+
+                      textAlign: "left",
+                    }}
+                  >
+                    Hours of events till date
+                  </Form.Label>
+                </Row>
+              </Col>
+              <Col
+                // sm={2}
+                style={{
+                  display: "grid",
+                  flex: 1 / 8,
+                  alignItems: "flex-start",
+                  justifyItems: "baseline",
+                  backgroundColor: "white",
+                  border: "2px solid #f3f3f3",
+                  padding: 24,
+                  paddingBottom: 18,
+                  paddingTop: 18,
+                  position: "absolute",
+                  top: 175,
+                  paddingRight: 117,
+                  width: "unset",
+                }}
+              >
+                <Image width={40} style={{}} src={ProfilePhoto} />
+                <Row>
+                  <Form.Label
+                    style={{ fontSize: 33, color: "#222", marginTop: 20 }}
+                  >
+                    1148h
+                  </Form.Label>
+                </Row>
+                <Row>
+                  <Form.Label
+                    style={{
+                      fontSize: 10,
+                      color: "#92929D",
+
+                      textAlign: "left",
+                    }}
+                  >
+                    Hours of events till date
+                  </Form.Label>
+                </Row>
+              </Col>
+
+              <Col
+                // sm={2}
+                style={{
+                  display: "grid",
+                  flex: 1 / 8,
+                  alignItems: "flex-start",
+                  justifyItems: "baseline",
+                  backgroundColor: "white",
+                  border: "2px solid #f3f3f3",
+                  padding: 20,
+                  paddingBottom: 20,
+                  paddingTop: 20,
+                  position: "relative",
+                  top: 340,
+                }}
+              >
+                <Image width={40} style={{}} src={ProfilePhoto} />
+                <Row>
+                  <Form.Label
+                    style={{ fontSize: 33, color: "#222", marginTop: 20 }}
+                  >
+                    2007
+                  </Form.Label>
+                </Row>
+                <Row>
+                  <Form.Label
+                    style={{
+                      fontSize: 10,
+                      color: "#92929D",
+
+                      textAlign: "left",
+                    }}
+                  >
+                    Founded and Established
+                  </Form.Label>
+                </Row>
+              </Col>
+              <Col
+                // sm={2}
+                style={{
+                  display: "grid",
+                  flex: 1 / 8,
+                  alignItems: "flex-start",
+                  justifyItems: "baseline",
+                  backgroundColor: "white",
+                  border: "2px solid #f3f3f3",
+                  padding: 20,
+                  paddingBottom: 20,
+                  paddingTop: 20,
+                  position: "relative",
+                  top: 170,
+                }}
+              >
+                <Image width={40} style={{}} src={ProfilePhoto} />
+                <Row>
+                  <Form.Label
+                    style={{ fontSize: 33, color: "#222", marginTop: 20 }}
+                  >
+                    200+
+                  </Form.Label>
+                </Row>
+                <Row>
+                  <Form.Label
+                    style={{
+                      fontSize: 10,
+                      color: "#92929D",
+
+                      textAlign: "left",
+                    }}
+                  >
+                    Staff and Volunteers
+                  </Form.Label>
+                </Row>
+              </Col>
+
+              <Col
+                sm={2}
+                style={{
+                  display: "grid",
+                  flex: 1 / 8,
+                  alignItems: "flex-start",
+                  justifyItems: "baseline",
+                  backgroundColor: "white",
+                  border: "2px solid #f3f3f3",
+
+                  padding: 20,
+                  paddingBottom: 20,
+                  paddingTop: 20,
+                  position: "relative",
+                  top: 340,
+                }}
+              >
+                <Image width={40} style={{}} src={ProfilePhoto} />
+                <Row>
+                  <Form.Label
+                    style={{ fontSize: 33, color: "#222", marginTop: 20 }}
+                  >
+                    500+
+                  </Form.Label>
+                </Row>
+                <Row>
+                  <Form.Label
+                    style={{
+                      fontSize: 10,
+                      color: "#92929D",
+
+                      textAlign: "left",
+                    }}
+                  >
+                    Events
+                  </Form.Label>
+                </Row>
+              </Col>
+            </Row>
+          </Row>
+        </Row>
+
+        <Row
+          class="flex-row"
+          style={{
+            display: "flex",
+            // borderTop: "2px solid #f3f3f3",
+          }}
+        >
+          <Row
+            class="flex-row"
+            style={{
+              display: "flex",
+
+              marginBottom: 30,
+
+              justifyContent: "space-between",
+              flexDirection: "row",
+            }}
+          >
+            <Col
+              style={{
+                display: "flex",
+                alignContent: "flex-start",
+                alignItems: "flex-end",
+              }}
+            >
+              <Form.Label
+                style={{
+                  textAlign: "left",
+                  fontSize: 30,
+                  paddingLeft: 80,
+                  paddingRight: 80,
+                  color: "#000",
+                }}
+              >
+                Our Gallery
+              </Form.Label>
+            </Col>
+            <Col>
+              <Dropdown
+                className={styles.dropdown}
+                // className="d-inline mx-2"
+                style={{ border: "0px solid red" }}
+              >
+                <Form.Label
+                  style={{
+                    marginRight: 20,
+                    fontSize: 15,
+                    fontWeight: 300,
+                  }}
+                >
+                  Filter By
+                </Form.Label>
+                <Dropdown.Toggle className={styles.dropdownCustom} id="">
+                  <Form.Label style={{}}>{view}</Form.Label>
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                  <Dropdown.Item onClick={() => setView("Latest")} href="#">
+                    Latest
+                  </Dropdown.Item>
+                  <Dropdown.Item onClick={() => setView("Oldest")} href="#">
+                    Oldest
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </Col>
+          </Row>
+
+          <div>
+            <div className="row">
+              <div className="col-md">
+                <div className="row no-gutters">
+                  {images.map((val, k) => {
+                    return (
+                      <div className="col-sm-4" key={k}>
+                        <img
+                          src={val.src}
+                          className={
+                            "img-fluid " +
+                            (val.src === currentSelection.src ? "p-1" : "")
+                          }
+                          // onClick={() => this.handleClick(val)}
+                        />
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <Row style={{ paddingTop: 40, paddingBottom: 40 }}>
+            <Form.Label
+              style={{
+                color: "#000",
+                fontSize: 28,
+              }}
+            >
+              Our Testimonials
+            </Form.Label>
+
+            <Row style={{ flex: 1, display: "flex" }}>
+              <Col
+                style={{
+                  display: "flex",
+                  flex: 0.25,
+                  justifyContent: "center",
+                }}
+              >
+                <Form.Label
+                  style={{
+                    fontSize: 100,
+                    color: "black",
+
+                    // fontWeight: "300",
+                  }}
+                >
+                  “
+                </Form.Label>
+              </Col>
+
+              <Col style={{ display: "flex", flex: 0.5 }}>
+                <Form.Label
+                  style={{
+                    marginTop: 30,
+                    opacity: 0.5,
+                    color: "#000",
+                    fontSize: 16,
+                    fontWeight: "300",
+                    textAlign: "center",
+                    marginBottom: 40,
+                  }}
+                >
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Risus
+                  vel lobortis tincidunt fames quisque mauris at diam. Nullam
+                  morbi ipsum turpis amet id posuere torto quis nostrud
+                  exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                  consequat. Duis aute irure dolor in reprehenderit in voluptate
+                  velit esse cillum dolore.
+                </Form.Label>
+              </Col>
+
+              <Col
+                style={{
+                  display: "flex",
+                  flex: 0.25,
+                  justifyContent: "center",
+                }}
+              >
+                <Form.Label
+                  style={{
+                    transform: "rotate(-180deg)",
+
+                    fontSize: 100,
+                    // fontWeight: "300",
+                    color: "black",
+                  }}
+                >
+                  “
+                </Form.Label>
+              </Col>
+            </Row>
+
+            <Row style={{ paddingTop: 50, paddingBottom: 30 }}>
+              <Col>
+                <Image
+                  width={60}
+                  style={{
+                    border: "1px solid #92929D",
+                    marginRight: 25,
+                    padding: 6,
+                    opacity: 0.6,
+                    borderRadius: 50,
+                  }}
+                  src={"https://randomuser.me/api/portraits/men/1.jpg"}
+                />
+                <Image
+                  width={60}
+                  style={{
+                    border: "1px solid #92929D",
+                    marginRight: 25,
+                    padding: 6,
+                    opacity: 0.6,
+
+                    borderRadius: 50,
+                  }}
+                  src={"https://randomuser.me/api/portraits/men/2.jpg"}
+                />
+                <Image
+                  width={100}
+                  style={{
+                    border: "1px solid #92929D",
+                    marginRight: 25,
+                    padding: 6,
+
+                    borderRadius: 50,
+                  }}
+                  src={"https://randomuser.me/api/portraits/men/3.jpg"}
+                />
+                <Image
+                  width={60}
+                  style={{
+                    border: "1px solid #92929D",
+                    marginRight: 25,
+                    padding: 6,
+                    opacity: 0.6,
+
+                    borderRadius: 50,
+                  }}
+                  src={"https://randomuser.me/api/portraits/men/4.jpg"}
+                />
+                <Image
+                  width={60}
+                  style={{
+                    border: "1px solid #92929D",
+                    marginRight: 25,
+
+                    padding: 6,
+                    opacity: 0.6,
+
+                    borderRadius: 50,
+                  }}
+                  src={"https://randomuser.me/api/portraits/men/5.jpg"}
+                />
+              </Col>
+            </Row>
+
+            <Row>
+              <Form.Label style={{ color: "#000", fontSize: 20 }}>
+                Lucy Aprilia
+              </Form.Label>
+              <Form.Label style={{ fontSize: 16, fontWeight: "400" }}>
+                Senior Director at Bajigur.us
+              </Form.Label>
+            </Row>
+          </Row>
         </Row>
       </div>
     );
   };
+  const location = {
+    address: "1600 Amphitheatre Parkway, Mountain View, california.",
+    lat: 37.42216,
+    lng: -122.08427,
+  }; //
   const renderMiddle = () => {
     return (
-      <div
+      <Row
         style={{
           padding: 30,
           marginTop: 30,
@@ -519,7 +1227,7 @@ export default function Root() {
             }
           )}
         />
-      </div>
+      </Row>
     );
   };
   const renderChat = () => {
@@ -1701,7 +2409,7 @@ export default function Root() {
           <div
             style={{
               marginTop: 40,
-
+              marginBottom: 100,
               borderRadius: 20,
               backgroundColor: "#FFF",
               boxShadow: "0 10px 30px 0 rgba(209,213,223,0.5)",

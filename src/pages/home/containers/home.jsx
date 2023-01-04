@@ -1,4 +1,12 @@
-import { Button, Container, Form, FormText, Image } from "react-bootstrap";
+import {
+  Button,
+  Col,
+  Container,
+  Form,
+  FormText,
+  Image,
+  Row,
+} from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import styles from "../styles/home.module.css";
 import { Tabs } from "antd";
@@ -21,9 +29,12 @@ import Events from "../../events/containers/event.jsx";
 import Dashboard from "../../dashboard/containers/dashboard.jsx";
 
 import dashboardIcon from "../../../assets/images/dashboard-icon.png";
+import { useState } from "react";
 
 export default function Root() {
   const navigate = useNavigate();
+
+  const [coverPhoto, setCoverPhoto] = useState(CoverPhoto);
 
   const renderLogoutButton = () => {
     return {
@@ -60,7 +71,7 @@ export default function Root() {
 
   const renderTextTab = (id) => {
     if (id === 0) {
-      return "Dashboard";
+      return "Home";
     } else if (id === 1) {
       return "Events   ";
     } else if (id === 2) {
@@ -70,6 +81,49 @@ export default function Root() {
     }
   };
 
+  const handleChange = (e) => {
+    console.log("====================================");
+    console.log(e);
+    console.log("====================================");
+    if (e.target.files.length) {
+      setCoverPhoto(URL.createObjectURL(e.target.files[0]));
+    }
+
+    console.log("====================================");
+    console.log(URL.createObjectURL(e.target.files[0]));
+    console.log("====================================");
+  };
+  const renderUploadButton = () => {
+    return (
+      <div
+        style={{
+          backgroundColor: "rgba(255, 255, 255, 0.3)",
+          borderRadius: 20,
+          padding: 30,
+          paddingTop: 15,
+          paddingBottom: 15,
+          position: "absolute",
+          top: 200,
+          left: 100,
+        }}
+      >
+        <input
+          type="file"
+          style={{ display: "none" }}
+          id="upload-cover"
+          onChange={handleChange}
+        />
+        <Form.Label
+          htmlFor="upload-cover"
+          style={{
+            color: "white",
+          }}
+        >
+          + Change Cover Photo
+        </Form.Label>
+      </div>
+    );
+  };
   const renderInnerTabs = (id) => {
     console.log(id);
     if (id === 0) {
@@ -96,9 +150,10 @@ export default function Root() {
     >
       <div
         style={{
-          backgroundImage: `url(${CoverPhoto})`,
+          backgroundImage: `url(${coverPhoto})`,
           backgroundSize: "100%",
-          height: "-webkit-fill-available",
+          height: "30vw",
+          width: "100vw",
           backgroundRepeat: "no-repeat",
         }}
       >
@@ -125,6 +180,7 @@ export default function Root() {
               src={logo}
             />
           </div>
+
           <Tabs
             className={styles.tabs}
             style={{
@@ -157,20 +213,27 @@ export default function Root() {
               };
             })}
           />
-          <div style={{ flexDirection: "row", display: "flex", padding: 20 ,paddingRight: 50 }}>
-            <div>
+          <Row
+            style={{
+              flexDirection: "row",
+              display: "flex",
+              padding: 20,
+              paddingRight: 50,
+            }}
+          >
+            <Col sm={4}>
               <SearchOutlined
                 style={{ fontSize: "40px", color: "#7A86A1", marginRight: 50 }}
               />
-            </div>
+            </Col>
 
-            <div>
+            <Col sm={4}>
               <BellOutlined
                 style={{ fontSize: "40px", color: "#7A86A1", marginRight: 50 }}
               />
-            </div>
+            </Col>
 
-            <div>
+            <Col sm={4}>
               <div
                 style={{
                   backgroundColor: "red",
@@ -179,6 +242,7 @@ export default function Root() {
                   borderRadius: 40,
                 }}
               >
+                {renderUploadButton()}
                 <Image
                   id="logo-image"
                   width={40}
@@ -188,10 +252,38 @@ export default function Root() {
                   src="https://randomuser.me/api/portraits/men/1.jpg"
                 />
               </div>
-            </div>
-          </div>
+            </Col>
+          </Row>
         </div>
       </div>
     </Container>
   );
+}
+
+{
+  /* <div>
+<label htmlFor="upload-button">
+  {image.preview ? (
+    <img
+      style={{ backgroundSize: "contain" }}
+      src={image.preview}
+      alt="dummy"
+      width="120"
+      height="120"
+    />
+  ) : (
+    <>
+      <span>
+        <Image src={Logo} style={logoupload} />
+      </span>
+    </>
+  )}
+</label>
+<input
+  type="file"
+  id="upload-button"
+  style={{ display: "none" }}
+  onChange={handleChange}
+/>
+</div> */
 }

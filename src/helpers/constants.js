@@ -1,6 +1,4 @@
-import {Dimensions} from 'react-native';
-
-export const API_LINK = 'http://api.friendlyfaceapp.com/';
+export const API_LINK = "";
 
 //Google Map API Key
-export const GOOGLE_MAP_API_KEY = 'AIzaSyB17qYIBW8F9pKW10TfNSxe91ddHPNhXn0';
+export const GOOGLE_MAP_API_KEY = "AIzaSyDBd3PlzEzaS3yFTxDsjUjHfETII_T63rg";

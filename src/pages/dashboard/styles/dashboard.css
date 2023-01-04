@@ -1,6 +1,9 @@
 .ant-progress-text {
-font-weight: 500 !important;
-color: #44444F !important;
-
-
+  font-weight: 500 !important;
+  color: #44444f !important;
+}
+.tabs-content-holder {
+  flex: auto;
+  min-width: -webkit-fill-available !important;
+  min-height: 0;
 }

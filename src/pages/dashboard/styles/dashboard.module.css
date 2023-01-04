@@ -4,3 +4,11 @@
   pointer-events: none !important;
   height: 5px !important;
 }
+.dropdown {
+  border: 0px solid red !important;
+}
+
+.dropdownCustom {
+  background-color: transparent !important;
+  color: black !important;
+}
